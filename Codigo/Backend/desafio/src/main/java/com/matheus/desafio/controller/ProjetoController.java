@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.entity.Projeto;
+import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.service.ProjetoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 
 
@@ -61,7 +60,10 @@ public class ProjetoController {
     public ResponseEntity<?> get(@PathVariable int id) {
         try {
             return new ResponseEntity<>(service.getId(id), HttpStatus.valueOf(200));
-        } catch (Exception e) {
+        }catch(NoFindProjetoException noProject){
+            return new ResponseEntity<>(noProject.getMessage(),HttpStatus.valueOf(404));
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
     }
