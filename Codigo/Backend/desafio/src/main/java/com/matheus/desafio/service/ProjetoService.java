@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.entity.Projeto;
 import com.matheus.desafio.repository.ProjetoRepository;
 
@@ -30,4 +31,15 @@ public class ProjetoService {
         return repository.getProjetos();
     }
 
+    @Transactional
+    public String alterarStatus(int id, AlterarStatusDTO alterar){
+
+        repository.alterarStatus(id, alterar.getStatus());
+
+        return "Sucesso";
+    }
+
+    public int getId(int id){
+        return repository.getByID(id);
+    }
 }

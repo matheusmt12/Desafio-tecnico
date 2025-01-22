@@ -3,6 +3,7 @@ package com.matheus.desafio.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.entity.Projeto;
 import com.matheus.desafio.service.ProjetoService;
 
@@ -12,6 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 
@@ -39,6 +45,27 @@ public class ProjetoController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
     }
+
+    @PutMapping("/alterarStatusProjeto/{id}")
+    public ResponseEntity<?> putMethodName(@PathVariable int id, @RequestBody AlterarStatusDTO alterar) {
+        try {
+            return new ResponseEntity<>(service.alterarStatus(id, alterar), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
+        }
+        
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(service.getId(id), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
+        }
+    }
+    
     
     
 }

@@ -30,7 +30,15 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
                         @Param("id_responsavel") int id_responsavel);
 
         @Query(value = "SELECT LAST_INSERT_ID()", nativeQuery = true)
+        
         Integer getLastInsertId();
+
+        @Modifying
+        @Query(value = "UPDATE TB_PROJETOS SET STATUS = :status WHERE ID = :id", nativeQuery = true)
+        void alterarStatus(@Param("id") int id,@Param("status") String status);
+
+        @Query("SELECT P.id FROM Projeto P  WHERE P.id = :id")
+        Integer getByID(@Param("id") int id);
 
 
 }
