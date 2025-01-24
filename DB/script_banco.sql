@@ -21,7 +21,7 @@ CREATE TABLE tb_projetos (
     FOREIGN KEY (ID_RESPONSAVEL) REFERENCES tb_responsavel_projeto(ID)
 );
 
-INSERT INTO tb_projetos VALUES (null, 'teste','teste descricao',  '2025-01-20', '2025-01-30', 'PLANEJADO',1);
+INSERT INTO tb_projetos VALUES (null, 'teste','teste descricao',  '2025-01-20', '2025-01-30', 'asdasda',1);
 
 SELECT * FROM TB_PROJETOS;
 
