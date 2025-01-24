@@ -18,7 +18,7 @@ public class Tarefa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id; 
+    private int id; 
     private String titulo;
     private String descricao;
     private int prazo;
