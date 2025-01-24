@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
-import com.matheus.desafio.entity.Projeto;
+import com.matheus.desafio.dto.ProjetoDTO;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.service.ProjetoService;
 
@@ -37,7 +37,7 @@ public class ProjetoController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> post(@RequestBody Projeto projeto) {
+    public ResponseEntity<?> post(@RequestBody ProjetoDTO projeto) {
         try {
             return new ResponseEntity<>(service.insert(projeto), HttpStatus.valueOf(201));
         } catch (Exception e) {

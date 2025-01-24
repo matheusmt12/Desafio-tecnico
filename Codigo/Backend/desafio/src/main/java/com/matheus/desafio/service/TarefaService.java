@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.matheus.desafio.dto.TarefaDTO;
 import com.matheus.desafio.entity.Tarefa;
 import com.matheus.desafio.repository.TarefaRepository;
 
@@ -22,7 +23,7 @@ public class TarefaService {
     }
 
     @Transactional
-    public String insert(Tarefa tarefa) {
+    public String insert(TarefaDTO tarefa) {
         try {
             repository.insertTarega(tarefa.getTitulo(), tarefa.getDescricao(),
                     tarefa.getPrazo(), tarefa.getStatus(), tarefa.getId_projeto(),

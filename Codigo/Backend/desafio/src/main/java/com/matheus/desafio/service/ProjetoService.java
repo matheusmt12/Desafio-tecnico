@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
+import com.matheus.desafio.dto.ProjetoDTO;
 import com.matheus.desafio.entity.Projeto;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
@@ -20,7 +21,7 @@ public class ProjetoService {
     private ProjetoRepository repository;
 
     @Transactional
-    public int insert(Projeto projeto) {
+    public int insert(ProjetoDTO projeto) {
 
         repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
                 projeto.getData_termino(),

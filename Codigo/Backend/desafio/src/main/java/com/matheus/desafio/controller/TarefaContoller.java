@@ -3,7 +3,7 @@ package com.matheus.desafio.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.matheus.desafio.entity.Tarefa;
+import com.matheus.desafio.dto.TarefaDTO;
 import com.matheus.desafio.service.TarefaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class TarefaContoller {
     }
 
     @PostMapping
-    public ResponseEntity<?> post (@RequestBody Tarefa tarefa){
+    public ResponseEntity<?> post (@RequestBody TarefaDTO tarefa){
         try {
             return new ResponseEntity<>(service.insert(tarefa), HttpStatus.valueOf(201));
         } catch (Exception e) {
