@@ -21,6 +21,7 @@ public class Tarefa {
     private int Id; 
     private String titulo;
     private String descricao;
+    private int prazo;
     private String status;
     private int id_projeto;
     private int id_responsavel;
