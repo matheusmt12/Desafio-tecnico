@@ -8,6 +8,6 @@ public class TarefaDTO {
     private String descricao;
     private int prazo;
     private String status;
-    private int id_projeto;
-    private int id_responsavel;
+    private ProjetoDTO projeto;
+    private ResponsavelTarefaDTO responsavel_tarefa;
 }

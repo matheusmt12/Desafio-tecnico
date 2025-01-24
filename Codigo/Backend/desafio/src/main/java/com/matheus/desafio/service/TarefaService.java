@@ -26,8 +26,8 @@ public class TarefaService {
     public String insert(TarefaDTO tarefa) {
         try {
             repository.insertTarega(tarefa.getTitulo(), tarefa.getDescricao(),
-                    tarefa.getPrazo(), tarefa.getStatus(), tarefa.getId_projeto(),
-                    tarefa.getId_responsavel());
+                    tarefa.getPrazo(), tarefa.getStatus(), tarefa.getProjeto().getId(),
+                    tarefa.getResponsavel_tarefa().getId());
 
             return "Sucesso, Tarefa Criada";
         } catch (Exception e) {
