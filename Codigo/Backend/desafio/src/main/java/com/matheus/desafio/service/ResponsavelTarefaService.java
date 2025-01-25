@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.matheus.desafio.dto.ResponsavelTarefaDTO;
 import com.matheus.desafio.entity.ResponsavelTarefa;
 import com.matheus.desafio.repository.ResponsavelTarefaRepository;
 
@@ -14,7 +15,7 @@ public class ResponsavelTarefaService {
     @Autowired
     private ResponsavelTarefaRepository repository;
 
-    public List<ResponsavelTarefa> getAll() {
+    public List<ResponsavelTarefaDTO> getAll() {
 
         return repository.getAll();
     }

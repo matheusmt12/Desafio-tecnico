@@ -20,7 +20,13 @@ public class ResponsavelTarefaController {
 
     @GetMapping("")
     public ResponseEntity<?> get() {
-        return new ResponseEntity<>(service.getAll(),HttpStatus.valueOf(200));
+        try {
+            return new ResponseEntity<>(service.getAll(),HttpStatus.valueOf(200));
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
+        }
     }
     
 
