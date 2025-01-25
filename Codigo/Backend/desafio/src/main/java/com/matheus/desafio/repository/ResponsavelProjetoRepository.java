@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.matheus.desafio.dto.ResponsavelProjetoDTO;
 import com.matheus.desafio.entity.ResponsavelProjeto;
 
 @Repository
 public interface ResponsavelProjetoRepository  extends JpaRepository<ResponsavelProjeto, Integer>{
 
 
-    @Query( value = "SELECT * FROM TB_RESPONSAVEL_PROJETO" , nativeQuery = true)
-    List<ResponsavelProjeto> getAll();
+    @Query( value = "SELECT id ,nome FROM TB_RESPONSAVEL_PROJETO" , nativeQuery = true)
+    List<ResponsavelProjetoDTO> getAll();
 }

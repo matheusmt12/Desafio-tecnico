@@ -17,7 +17,7 @@ public class TarefaService {
     @Autowired
     private TarefaRepository repository;
 
-    public List<Tarefa> getAll() {
+    public List<TarefaDTO> getAll() {
 
         return repository.getAll();
     }
@@ -26,8 +26,8 @@ public class TarefaService {
     public String insert(TarefaDTO tarefa) {
         try {
             repository.insertTarega(tarefa.getTitulo(), tarefa.getDescricao(),
-                    tarefa.getPrazo(), tarefa.getStatus(), tarefa.getProjeto().getId(),
-                    tarefa.getResponsavel_tarefa().getId());
+                    tarefa.getPrazo(), tarefa.getStatus(), tarefa.getId_projeto(),
+                    tarefa.getId_responsavel());
 
             return "Sucesso, Tarefa Criada";
         } catch (Exception e) {

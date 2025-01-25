@@ -31,7 +31,7 @@ public class ProjetoService {
 
     }
 
-    public List<Projeto> getProjetos() {
+    public List<ProjetoDTO> getProjetos() {
         return repository.getProjetos();
     }
 

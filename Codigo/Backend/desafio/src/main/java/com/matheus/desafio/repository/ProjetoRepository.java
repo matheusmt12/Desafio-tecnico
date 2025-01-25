@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.matheus.desafio.dto.ProjetoDTO;
 import com.matheus.desafio.entity.Projeto;
 
 @Repository
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-        @Query(value = "SELECT * FROM TB_PROJETOS", nativeQuery = true)
-        List<Projeto> getProjetos();
+        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel FROM TB_PROJETOS T", nativeQuery = true)
+        List<ProjetoDTO> getProjetos();
 
         @Modifying
         @Query(value = "INSERT INTO TB_PROJETOS (nome,descricao, data_inicio, data_termino, status, id_responsavel) VALUES"
