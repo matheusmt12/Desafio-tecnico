@@ -6,6 +6,5 @@ import { onMounted, ref } from 'vue';
 </script>
 
 <template>
-
-    <h1>{{ data }}</h1>
+    <h1>Teste</h1>
 </template>
