@@ -12,4 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM USER WHERE USUARIO = :usuario")
     Usuario findByUsuario (@Param("usuario") String usuario);
+
+    @Query(nativeQuery = true, value = "INSERT INTO USER(usuario, senha) VALUES(:usuario,:senha)")
+    void insertUsuario(@Param("usuario") String usuario, @Param("senha") String senha);
 }
