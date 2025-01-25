@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.TarefaDTO;
-import com.matheus.desafio.entity.Tarefa;
 import com.matheus.desafio.repository.TarefaRepository;
 
 import jakarta.transaction.Transactional;

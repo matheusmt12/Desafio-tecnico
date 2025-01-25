@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
-import com.matheus.desafio.entity.Projeto;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
 

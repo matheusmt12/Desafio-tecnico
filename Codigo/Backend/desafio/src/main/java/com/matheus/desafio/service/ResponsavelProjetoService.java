@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.ResponsavelProjetoDTO;
-import com.matheus.desafio.entity.ResponsavelProjeto;
 import com.matheus.desafio.repository.ResponsavelProjetoRepository;
 
 @Service
