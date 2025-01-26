@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.matheus.desafio.dto.AlterarStatusDTO;
+import com.matheus.desafio.dto.ResponseDTO;
 import com.matheus.desafio.dto.TarefaDTO;
 import com.matheus.desafio.repository.TarefaRepository;
 
@@ -38,6 +40,15 @@ public class TarefaService {
     public List<TarefaDTO> getTarefaIdPRojeto(int id){
 
         return repository.getTarefaIdProjeto(id);
-        
+    }
+
+    @Transactional
+    public ResponseDTO<?> alterarStatus(int id, AlterarStatusDTO alterar){
+        try {
+            repository.alterarStatusTarefa(id, alterar.getStatus());
+            return new ResponseDTO<>("Status Alterado", null);
+        } catch (Exception e) {
+            return new ResponseDTO<>(e.getMessage(), null);
+        }
     }
 }

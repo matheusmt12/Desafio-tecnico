@@ -31,4 +31,8 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
                         "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)"+
                         " WHERE T.id_projeto = :idProjeto", nativeQuery = true)
         List<TarefaDTO> getTarefaIdProjeto(@Param("idProjeto") int idProjeto);
+
+        @Modifying
+        @Query(value = "UPDATE TB_TAREFAS SET STATUS = :status WHERE ID = :id", nativeQuery = true)
+        void alterarStatusTarefa(@Param("id") int id, @Param("status") String status);
 }
