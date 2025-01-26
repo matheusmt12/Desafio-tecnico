@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.service.ProjetoService;
 
@@ -49,7 +50,10 @@ public class ProjetoController {
     public ResponseEntity<?> putMethodName(@PathVariable int id, @RequestBody AlterarStatusDTO alterar) {
         try {
             return new ResponseEntity<>(service.alterarStatus(id, alterar), HttpStatus.valueOf(200));
-        } catch (Exception e) {
+        }catch(FinalizarProjetoException ex){
+            return new ResponseEntity<>(ex.getMessage(),HttpStatus.valueOf(400));
+        }
+         catch (Exception e) {
 
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }

@@ -10,6 +10,7 @@ import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
 import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
 import com.matheus.desafio.dto.ResponseDTO;
+import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
 
@@ -51,7 +52,7 @@ public class ProjetoService {
         if (alterar.getStatus().equals("FINALIZADO")) {
             Optional<ProjetoTarefaStatusDTO> tarefas = repository.vericarStatus(id);
             if (tarefas.isPresent()) {
-                return "Falha";
+                throw new FinalizarProjetoException("A tarefa " + tarefas.get().getNome_tarefa()+ " ainda não foi finaliada");
             }
         }
         
