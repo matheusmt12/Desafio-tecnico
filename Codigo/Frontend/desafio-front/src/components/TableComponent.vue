@@ -1,16 +1,27 @@
 <script setup>
+import moment from 'moment'
+const props = defineProps(['dados', 'titulos','tarefas']);
+const emits = defineEmits(['funcTarefas']);
 
-const props = defineProps(['dados', 'titulos'])
+
 
 // Função para dividir strings por letras maiúsculas
 function splitByUppercase(str) {
     if (typeof str === 'string') {
 
-        return str.split(/(?=[A-Z])|_/).join(' ').toUpperCase(); // Dividindo e juntando com espaço
+        return str.split(/(?=[A-Z])|_/).join(' ').toUpperCase();
 
     }
 
-    return str.toUpperCase(); // Se não for string, retorna o valor como está
+    return str.toUpperCase(); 
+}
+
+function funcTarefa(id) {
+    emits('funcTarefas', id)
+}
+
+function formatarData(data) {
+    return moment(data).format('DD/MM/YYYY')
 }
 
 </script>
@@ -25,7 +36,10 @@ function splitByUppercase(str) {
         <tbody>
             <tr v-for="dado in dados">
                 <td v-for="chave in titulos " :key="chave">
-                    {{ dado[chave] }}</td>
+                    <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
+                    <span v-else>{{ dado[chave] }}</span>
+                </td>
+                <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button></td>
             </tr>
         </tbody>
     </table>
