@@ -5,8 +5,8 @@ import { onMounted, ref } from 'vue';
 import CardComponent from '@/components/CardComponent.vue';
 import TableComponent from '@/components/TableComponent.vue';
 import NavbarComponent from '@/components/NavbarComponent.vue';
-import { RouterView } from 'vue-router';
 import router from '@/router';
+import ModalComponent from '@/components/ModalComponent.vue';
 
 
 //variáveis 
@@ -14,6 +14,14 @@ const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
 const nomePesquisa = ref("");
 const tarefas = ref(true);
+
+//variáveis e funções modal
+const modalVisivel = ref(false);
+
+const abrirModal = () =>{
+    modalVisivel.value = true
+}
+
 
 //funções
 function buscarProjetos() {
@@ -64,7 +72,15 @@ onMounted(() => {
             </TableComponent>
         </template>
         <template v-slot:footer>
-            <button class="btn btn-primary ">teste</button>
+            <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
         </template>
     </CardComponent>
+
+
+    <ModalComponent :visivel="modalVisivel" titulo="Novo Projeto">
+        <template v-slot:footer>
+            <button class="btn btn-secondary">Fechar</button>
+            <button class="btn btn-primary">Adicionar</button>
+        </template>
+    </ModalComponent>
 </template>
