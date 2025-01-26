@@ -1,7 +1,7 @@
 <script setup>
 import moment from 'moment'
-const props = defineProps(['dados', 'titulos','tarefas']);
-const emits = defineEmits(['funcTarefas']);
+const props = defineProps(['dados', 'titulos','tarefas','statusAlterar']);
+const emits = defineEmits(['funcTarefas', 'funcStatus']);
 
 
 
@@ -16,12 +16,17 @@ function splitByUppercase(str) {
     return str.toUpperCase(); 
 }
 
-function funcTarefa(id) {
-    emits('funcTarefas', id)
+function formatarData(data) {
+    return moment(data).format('DD/MM/YYYY');
 }
 
-function formatarData(data) {
-    return moment(data).format('DD/MM/YYYY')
+// funções para passar na tabela e retornar o valor de uma linha
+function funcTarefa(id) {
+    emits('funcTarefas', id);
+}
+
+function funcStatus(obj) {
+ emits('funcStatus', obj); 
 }
 
 </script>
@@ -40,6 +45,7 @@ function formatarData(data) {
                     <span v-else>{{ dado[chave] }}</span>
                 </td>
                 <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button></td>
+                <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button></td>
             </tr>
         </tbody>
     </table>
