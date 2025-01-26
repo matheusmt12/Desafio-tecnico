@@ -9,6 +9,7 @@ import router from '@/router';
 import ModalComponent from '@/components/ModalComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import StatusProjetoEnumInicial from '@/enums/StatusProjetoEnumInicial';
+import AlertComponent from '@/components/AlertComponent.vue';
 //variáveis 
 const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
@@ -22,6 +23,13 @@ const decricaoProjeto = ref("");
 const dataInicio = ref("");
 const dataTermino = ref("");
 
+//variáveis Alert
+
+const sucesso = ref(false);
+const menssagem = ref("");
+const erro = ref(false);
+
+
 //variáveis e funções modal
 const modalVisivel = ref(false);
 
@@ -30,7 +38,9 @@ const abrirModal = () => {
 }
 
 const fecharModal = () => {
-    modalVisivel.value = false
+    modalVisivel.value = false;
+    sucesso.value = false;
+    menssagem.value = "";
 }
 
 
@@ -76,12 +86,21 @@ function salvarProjeto() {
         }
     }).then(response => {
         console.log(response.data.message);
+        
+        //resetar as variáveis do projeto
         nomeProjeto.value = "";
         decricaoProjeto.value = "";
         dataInicio.value= "";
-        dataTermino.value = ""
+        dataTermino.value = "";
+
+        // menssagem alert
+        menssagem.value = response.data.message[0];
+        sucesso.value = true
         buscarProjetos();
 
+    }).catch(error =>{
+        menssagem.value = error;
+        erro.value = true;
     })
 
 
@@ -131,6 +150,10 @@ onMounted(() => {
 
 
     <ModalComponent :visivel="modalVisivel" titulo="Novo Projeto">
+        <template v-slot:alert>
+            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"></AlertComponent>
+            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger"></AlertComponent>
+        </template>
         <template v-slot:conteudo>
             <div class="row">
                 <div class="col">
@@ -140,7 +163,7 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent forId="idDescricao" label="Nome">
+                    <InputComponent forId="idDescricao" label="Descrição">
                         <input type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
                             v-model="decricaoProjeto">
                     </InputComponent>
