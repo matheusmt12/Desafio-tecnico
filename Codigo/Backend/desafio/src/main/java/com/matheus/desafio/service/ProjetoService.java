@@ -59,7 +59,7 @@ public class ProjetoService {
         
         repository.alterarStatus(id, alterar.getStatus());
 
-        return "Sucesso";
+        return "Status Alterado";
     }
 
     public int getId(int id) {

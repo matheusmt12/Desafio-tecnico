@@ -31,6 +31,8 @@ const dataTermino = ref("");
 const sucesso = ref(false);
 const menssagem = ref("");
 const erro = ref(false);
+const statusAlertSucesso = ref("");
+const statusAlertErro = ref("");
 
 
 //variáveis e funções modal
@@ -47,6 +49,10 @@ const fecharModal = () => {
 
     sucesso.value = false;
     menssagem.value = "";
+    erro.value = false;
+    statusAlertSucesso.value = "";
+    statusAlertErro.value = "";
+    
 }
 
 function mudarStatusModal(obj) {
@@ -108,12 +114,17 @@ function salvarProjeto() {
 
         // menssagem alert
         menssagem.value = response.data.message[0];
-        sucesso.value = true
+        sucesso.value = true;
+        erro.value = false;
+        statusAlertSucesso.value = "Sucesso";
         buscarProjetos();
+
 
     }).catch(error => {
         menssagem.value = error;
         erro.value = true;
+        sucesso.value = false;
+        statusAlertErro.value = "Erro";
     })
 
 
@@ -124,21 +135,26 @@ function salvarProjeto() {
 function alterarStatus(idProjeto) {
     let status = document.getElementById("projetoStatus").value;
 
-    axios.put(url + '/alterarStatusProjeto/' + idProjeto , {
-        status : status
-    },{
-        headers :{
+    axios.put(url + '/alterarStatusProjeto/' + idProjeto, {
+        status: status
+    }, {
+        headers: {
             'Authorization': 'Bearer ' + token()
         }
-    }).then(response =>{
-        console.log(response.data);
+    }).then(response => {
+        sucesso.value = true;
+        erro.value = false;
+        menssagem.value = response.data;        
+        statusAlertSucesso.value = "Sucesso";
         buscarProjetos();
-        
+
     }).catch(error => {
-        console.log(error.response.data);
-        
+        erro.value = true;
+        sucesso.value = false;
+        menssagem.value = error.response.data;
+        statusAlertErro.value = "Erro"
     })
-    
+
 }
 
 //metodo para redirecionar para as tarefas do projeto
@@ -187,8 +203,8 @@ onMounted(() => {
 
     <ModalComponent :visivel="modalVisivel" titulo="Novo Projeto">
         <template v-slot:alert>
-            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"></AlertComponent>
-            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger"></AlertComponent>
+            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success" :status="statusAlertSucesso"></AlertComponent>
+            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro"></AlertComponent>
         </template>
         <template v-slot:conteudo>
             <div class="row">
@@ -236,6 +252,10 @@ onMounted(() => {
         </template>
     </ModalComponent>
     <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
+        <template v-slot:alert>
+            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success" :status="statusAlertSucesso"></AlertComponent>
+            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro"></AlertComponent>
+        </template>
         <template v-slot:conteudo>
             <div class="row">
                 <div class="col">
@@ -265,8 +285,8 @@ onMounted(() => {
             <div class="row">
                 <div class="col">
                     <select name="projetoStatus" id="projetoStatus" class="form-control">
-                    <option v-for="status in StatusProjetoEnum" :value="status">{{ status }}</option>
-                </select>
+                        <option v-for="status in StatusProjetoEnum" :value="status">{{ status }}</option>
+                    </select>
                 </div>
             </div>
         </template>
