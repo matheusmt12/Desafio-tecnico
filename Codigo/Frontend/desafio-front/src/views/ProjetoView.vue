@@ -9,13 +9,16 @@ import router from '@/router';
 import ModalComponent from '@/components/ModalComponent.vue';
 import InputComponent from '@/components/InputComponent.vue';
 import StatusProjetoEnumInicial from '@/enums/StatusProjetoEnumInicial';
+import StatusProjetoEnum from '@/enums/StatusProjetoEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
 //variáveis 
 const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
 const nomePesquisa = ref("");
 const tarefas = ref(true);
+const finalizarProjeto = ref(true);
 const dadosResponsavel = ref([]);
+const projeto = ref(null);
 
 //variáveis para adicionar um novo projeto  
 const nomeProjeto = ref("");
@@ -32,6 +35,7 @@ const erro = ref(false);
 
 //variáveis e funções modal
 const modalVisivel = ref(false);
+const modalVisivelStatus = ref(false);
 
 const abrirModal = () => {
     modalVisivel.value = true
@@ -39,9 +43,18 @@ const abrirModal = () => {
 
 const fecharModal = () => {
     modalVisivel.value = false;
+    modalVisivelStatus.value = false;
+
     sucesso.value = false;
     menssagem.value = "";
 }
+
+function mudarStatusModal(obj) {
+    modalVisivelStatus.value = true;
+    projeto.value = obj;
+
+}
+
 
 
 //funções
@@ -86,11 +99,11 @@ function salvarProjeto() {
         }
     }).then(response => {
         console.log(response.data.message);
-        
+
         //resetar as variáveis do projeto
         nomeProjeto.value = "";
         decricaoProjeto.value = "";
-        dataInicio.value= "";
+        dataInicio.value = "";
         dataTermino.value = "";
 
         // menssagem alert
@@ -98,12 +111,34 @@ function salvarProjeto() {
         sucesso.value = true
         buscarProjetos();
 
-    }).catch(error =>{
+    }).catch(error => {
         menssagem.value = error;
         erro.value = true;
     })
 
 
+}
+
+// Alterar Status Projeto
+
+function alterarStatus(idProjeto) {
+    let status = document.getElementById("projetoStatus").value;
+
+    axios.put(url + '/alterarStatusProjeto/' + idProjeto , {
+        status : status
+    },{
+        headers :{
+            'Authorization': 'Bearer ' + token()
+        }
+    }).then(response =>{
+        console.log(response.data);
+        buscarProjetos();
+        
+    }).catch(error => {
+        console.log(error.response.data);
+        
+    })
+    
 }
 
 //metodo para redirecionar para as tarefas do projeto
@@ -140,7 +175,8 @@ onMounted(() => {
     <CardComponent titulo="Projetos">
         <template v-slot:conteudo>
             <TableComponent :dados="dadosProjeto" :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
-                :tarefas="tarefas" @funcTarefas="tarefa">
+                :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
+                @funcFinalizar="mudarStatusModal">
             </TableComponent>
         </template>
         <template v-slot:footer>
@@ -197,6 +233,46 @@ onMounted(() => {
         <template v-slot:footer>
             <button class="btn btn-secondary" @click="fecharModal">Fechar</button>
             <button class="btn btn-primary" @click="salvarProjeto">Adicionar</button>
+        </template>
+    </ModalComponent>
+    <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
+        <template v-slot:conteudo>
+            <div class="row">
+                <div class="col">
+                    <InputComponent label="Nome">
+                        <label class="form-control">{{ projeto.nome }}</label>
+                    </InputComponent>
+                </div>
+                <div class="col">
+                    <InputComponent label="Descrição">
+                        <label class="form-control">{{ projeto.descricao }}</label>
+                    </InputComponent>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <InputComponent label="Status Atual">
+                        <label class="form-control">{{ projeto.status }}</label>
+                    </InputComponent>
+                </div>
+                <div class="col">
+                    <InputComponent label="Responsavel">
+                        <label class="form-control">{{ projeto.nome_responsavel }}</label>
+                    </InputComponent>
+                </div>
+            </div>
+            <h5>Alterar</h5>
+            <div class="row">
+                <div class="col">
+                    <select name="projetoStatus" id="projetoStatus" class="form-control">
+                    <option v-for="status in StatusProjetoEnum" :value="status">{{ status }}</option>
+                </select>
+                </div>
+            </div>
+        </template>
+        <template v-slot:footer>
+            <button class="btn btn-secondary" @click="fecharModal">Fechar</button>
+            <button class="btn btn-primary" @click="alterarStatus(projeto.id)">Alterar</button>
         </template>
     </ModalComponent>
 </template>

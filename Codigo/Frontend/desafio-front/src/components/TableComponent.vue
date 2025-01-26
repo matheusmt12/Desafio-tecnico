@@ -1,7 +1,7 @@
 <script setup>
 import moment from 'moment'
-const props = defineProps(['dados', 'titulos','tarefas','statusAlterar']);
-const emits = defineEmits(['funcTarefas', 'funcStatus']);
+const props = defineProps(['dados', 'titulos','tarefas','statusAlterar','finalizarProjeto']);
+const emits = defineEmits(['funcTarefas', 'funcStatus', 'funcFinalizar']);
 
 
 
@@ -21,6 +21,7 @@ function formatarData(data) {
 }
 
 // funções para passar na tabela e retornar o valor de uma linha
+
 function funcTarefa(id) {
     emits('funcTarefas', id);
 }
@@ -29,6 +30,9 @@ function funcStatus(obj) {
  emits('funcStatus', obj); 
 }
 
+function funcFinalizar (obj){
+    emits('funcFinalizar', obj);
+}
 </script>
 
 <template>
@@ -44,6 +48,7 @@ function funcStatus(obj) {
                     <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
                     <span v-else>{{ dado[chave] }}</span>
                 </td>
+                <td v-if="finalizarProjeto"><button class="btn btn btn-light" @click="funcFinalizar(dado)">Finalizar</button></td>
                 <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button></td>
                 <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button></td>
             </tr>
