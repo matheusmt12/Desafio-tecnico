@@ -55,8 +55,20 @@ function buscarTarefas() {
 
 function alterarStatus() {
     let status = document.getElementById('statusTarefa').value;
-    console.log(status);
     
+    axios.put(url +'/alterar/' + tarefa.value.id,{
+        status: status
+    }, {
+        headers: {
+            'Authorization': 'Bearer ' + token()
+        }
+    }
+    ).then(response => {
+        console.log(response.data);
+        
+        buscarTarefas();
+    })
+
 }
 
 
@@ -98,29 +110,29 @@ onMounted(() => {
                 </div>
             </div>
             <div class="row">
-                    <div class="col">
-                        <InputComponent label="Prazo">
-                            <label class="form-control">Prazo da tarefa: {{ tarefa.prazo }}</label>
-                        </InputComponent>
-                    </div>
-                    <div class="col">
-                        <InputComponent label="Responsavel">
+                <div class="col">
+                    <InputComponent label="Prazo">
+                        <label class="form-control">Prazo da tarefa: {{ tarefa.prazo }}</label>
+                    </InputComponent>
+                </div>
+                <div class="col">
+                    <InputComponent label="Responsavel">
                         <label class="form-control">{{ tarefa.nome_responsavel }}</label>
-                        </InputComponent>
-                    </div>
+                    </InputComponent>
                 </div>
-                <h5>Alterar Status</h5>
-                <div class="row">
-                    <div class="col">
-                        <select name="statusTarefa" id="statusTarefa">
-                            <option v-for="status in StatusTarefaEnum" :value="status">{{ status }}</option>
-                        </select>
-                    </div>
+            </div>
+            <h5>Alterar Status</h5>
+            <div class="row">
+                <div class="col">
+                    <select name="statusTarefa" id="statusTarefa">
+                        <option v-for="status in StatusTarefaEnum" :value="status">{{ status }}</option>
+                    </select>
                 </div>
+            </div>
         </template>
         <template v-slot:footer>
             <button class="btn btn-secondary" @click="fecharModal">Fechar</button>
-            <button class="btn btn-primary" @click="alterarStatus">Alterar</button>
+            <button class="btn btn-primary" @click="alterarStatus()">Alterar</button>
         </template>
     </ModalComponent>
 </template>

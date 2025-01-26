@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TarefaDTO {
+    private int id;
     private String titulo;
     private String descricao;
     private int prazo;
