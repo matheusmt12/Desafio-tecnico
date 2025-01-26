@@ -26,7 +26,9 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
                         @Param("status") String status, @Param("id_projeto") int id_projeto,
                         @Param("id_responsavel") int id_responsavel);
 
-        @Query(value = "SELECT T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel FROM "
-        +"TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID) WHERE T.id_projeto = :idProjeto", nativeQuery = true)
+        @Query(value = "SELECT T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)"+
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)"+
+                        " WHERE T.id_projeto = :idProjeto", nativeQuery = true)
         List<TarefaDTO> getTarefaIdProjeto(@Param("idProjeto") int idProjeto);
 }

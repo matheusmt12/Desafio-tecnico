@@ -14,4 +14,5 @@ public class TarefaDTO {
     private String status;
     private int id_projeto;
     private int id_responsavel;
+    private String nome_responsavel;
 }
