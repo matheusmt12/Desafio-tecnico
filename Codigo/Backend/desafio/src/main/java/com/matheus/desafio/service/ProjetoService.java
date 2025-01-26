@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
 import com.matheus.desafio.dto.ResponseDTO;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
@@ -46,6 +47,15 @@ public class ProjetoService {
         if (projetoId.isEmpty()) {
             throw new NoFindProjetoException("O projeto não foi encontrado");
         }
+        
+        if (alterar.getStatus().equals("FINALIZADO")) {
+            Optional<ProjetoTarefaStatusDTO> tarefas = repository.vericarStatus(id);
+            if (tarefas.isPresent()) {
+                return "Falha";
+            }
+        }
+        
+        
         repository.alterarStatus(id, alterar.getStatus());
 
         return "Sucesso";

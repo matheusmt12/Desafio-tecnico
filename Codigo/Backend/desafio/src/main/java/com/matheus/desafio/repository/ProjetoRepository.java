@@ -11,12 +11,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
 import com.matheus.desafio.entity.Projeto;
 
 @Repository
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel, RR.nome as nome_responsavel" +
+        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel, RR.nome as nome_responsavel"
+                        +
                         " FROM TB_PROJETOS T JOIN TB_RESPONSAVEL_PROJETO RR ON (T.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
         List<ProjetoDTO> getProjetos();
 
@@ -43,4 +45,7 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
         @Query(value = "SELECT id FROM TB_PROJETOS WHERE id = :id", nativeQuery = true)
         Optional<Integer> getByID(@Param("id") int id);
 
+        @Query(value = "SELECT T.titulo as nome_tarefa, T.status FROM TB_PROJETOS P JOIN TB_TAREFAS T ON (P.ID = T.ID_PROJETO)"+
+        "WHERE T.STATUS != 'FINALIZADO' AND T.STATUS != 'ABORTADO' AND P.ID = :id LIMIT 1", nativeQuery = true)
+        Optional<ProjetoTarefaStatusDTO> vericarStatus(@Param("id") int id);
 }
