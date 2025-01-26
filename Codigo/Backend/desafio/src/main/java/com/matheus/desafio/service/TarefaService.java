@@ -34,4 +34,10 @@ public class TarefaService {
             return e.getMessage();
         }
     }
+
+    public List<TarefaDTO> getTarefaIdPRojeto(int id){
+
+        return repository.getTarefaIdProjeto(id);
+        
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -39,5 +40,15 @@ public class TarefaContoller {
         }
 
     }   
+
+    @GetMapping("{id}")
+    public ResponseEntity<?> getIdProjeto(@PathVariable int id){
+        try {
+            return new ResponseEntity<>(service.getTarefaIdPRojeto(id), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
+        }
+    }
 
 }
