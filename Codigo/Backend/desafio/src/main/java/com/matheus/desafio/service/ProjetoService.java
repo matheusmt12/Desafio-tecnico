@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.dto.ResponseDTO;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
 
@@ -20,13 +21,17 @@ public class ProjetoService {
     private ProjetoRepository repository;
 
     @Transactional
-    public int insert(ProjetoDTO projeto) {
+    public ResponseDTO<?> insert(ProjetoDTO projeto) {
 
-        repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
-                projeto.getData_termino(),
-                projeto.getStatus(), projeto.getId_responsavel());
+        try {
+            repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
+                    projeto.getData_termino(),
+                    projeto.getStatus(), projeto.getId_responsavel());
 
-        return repository.getLastInsertId();
+            return new ResponseDTO<>("Novo Projeto Adicionado", null);
+        } catch (Exception e) {
+            return new ResponseDTO<>("Erro ao Adicionar um novo Projeto", null);
+        }
 
     }
 
