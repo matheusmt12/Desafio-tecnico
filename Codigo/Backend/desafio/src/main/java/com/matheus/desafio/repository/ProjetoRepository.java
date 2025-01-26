@@ -16,7 +16,8 @@ import com.matheus.desafio.entity.Projeto;
 @Repository
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel FROM TB_PROJETOS T", nativeQuery = true)
+        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel, RR.nome as nome_responsavel" +
+                        " FROM TB_PROJETOS T JOIN TB_RESPONSAVEL_PROJETO RR ON (T.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
         List<ProjetoDTO> getProjetos();
 
         @Modifying
@@ -32,15 +33,14 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
                         @Param("id_responsavel") int id_responsavel);
 
         @Query(value = "SELECT LAST_INSERT_ID()", nativeQuery = true)
-        
+
         Integer getLastInsertId();
 
         @Modifying
         @Query(value = "UPDATE TB_PROJETOS SET STATUS = :status WHERE ID = :id", nativeQuery = true)
-        void alterarStatus(@Param("id") int id,@Param("status") String status);
+        void alterarStatus(@Param("id") int id, @Param("status") String status);
 
-        @Query(value = "SELECT id FROM TB_PROJETOS WHERE id = :id" ,nativeQuery = true)
+        @Query(value = "SELECT id FROM TB_PROJETOS WHERE id = :id", nativeQuery = true)
         Optional<Integer> getByID(@Param("id") int id);
-
 
 }

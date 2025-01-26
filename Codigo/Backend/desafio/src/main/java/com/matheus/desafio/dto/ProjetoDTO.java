@@ -18,4 +18,5 @@ public class ProjetoDTO {
     private Date data_termino;
     private String status;
     private int id_responsavel;
+    private String nome_responsavel;
 }
