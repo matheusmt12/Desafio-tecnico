@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 public class ResponsavelTarefaDTO {
     
     private int id;
-    private String name;
-    private String titulo;
-    private String status;
+    private String nome;
 }

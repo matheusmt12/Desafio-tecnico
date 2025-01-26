@@ -16,7 +16,7 @@ public interface ResponsavelTarefaRepository extends JpaRepository<ResponsavelTa
     // List<ResponsavelTarefa> getAll();
 
     @Query(value = """
-            SELECT RT.ID, RT.NOME, T.titulo as nomeProjeto, T.STATUS FROM TB_RESPONSAVEL_TAREFA RT JOIN TB_TAREFAS T ON (RT.ID = T.ID_RESPONSAVEL)
+            SELECT RT.ID, RT.NOME FROM TB_RESPONSAVEL_TAREFA RT
             """,nativeQuery = true)
 
     List<ResponsavelTarefaDTO> getAll();
