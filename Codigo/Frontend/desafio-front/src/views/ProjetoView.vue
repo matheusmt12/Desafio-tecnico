@@ -25,7 +25,7 @@ const pageable = ref([]);
 const numPage = ref(0);
 const statusConsulta = ref("");
 
-//Variaveis para erro de inserção
+//Variaveis para erro de input
 
 const errorMessage = ref({
     nome: '',
@@ -179,7 +179,7 @@ function salvarProjeto() {
 
         if (errorMessage.value.data_inicio || errorMessage.value.data_termino ||
             errorMessage.value.descricao || errorMessage.value.nome) {
-            menssagem.value = "Preencha os campos necessários"
+            menssagem.value = "Preencha os campos necessários";
 
             return;
         }

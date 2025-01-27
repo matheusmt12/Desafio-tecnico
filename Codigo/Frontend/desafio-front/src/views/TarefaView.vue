@@ -26,7 +26,15 @@ const page = ref(0);
 const statusConsulta = ref("");
 const pesquisaTitulo = ref("");
 
+//VAriavel para erro de input
+
+const errorMessage = ref({
+    titulo: '',
+    descricao: '',
+})
+
 //variáveis Alert
+
 
 const sucesso = ref(false);
 const menssagem = ref("");
@@ -94,8 +102,9 @@ function buscarTarefas() {
         pageable.value = response.data;
 
     }).catch(error => {
-        console.log('ta qui');
-        verificarToken(error.response.data.message[0]);
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
     });
 }
 
@@ -104,6 +113,9 @@ function buscarTarefas() {
 function salvarNovaTarefa() {
     let idResponsavel = document.getElementById('idResponsavel').value;
     let status = document.getElementById('tarefaStatus').value;
+
+    errorMessage.value.descricao = '';
+    errorMessage.value.titulo = '';
 
     let data = {
         titulo: titulo.value,
@@ -126,7 +138,7 @@ function salvarNovaTarefa() {
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
         titulo.value = '';
-        descricao.value ='';
+        descricao.value = '';
         prazo.value = 0;
 
 
@@ -135,11 +147,21 @@ function salvarNovaTarefa() {
 
     }).catch(error => {
 
-        verificarToken(error.response.data.message[0]);
         sucesso.value = false;
-        menssagem.value = error.response.data;
         erro.value = true;
         statusAlertErro.value = "Erro";
+        errorMessage.value.descricao = error.response.data.descricao;
+        errorMessage.value.titulo = error.response.data.titulo
+        if (errorMessage.value.descricao || errorMessage.value.titulo) {
+            menssagem.value = "Preencha os campos necessários";
+            return;
+        }
+
+        menssagem.value = error.response.data;
+
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
     })
 }
 
@@ -162,11 +184,13 @@ function alterarStatus() {
         mudarStatus(tarefa.value);
         buscarTarefas();
     }).catch(error => {
-        verificarToken(error.response.data.message[0]);
         sucesso.value = false;
         menssagem.value = error.response.message;
         erro.value = true;
         statusAlertErro.value = "Erro";
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
     })
 
 }
@@ -202,8 +226,9 @@ onMounted(() => {
             dadosResponsaveis.value = response.data;
 
         }).catch(error => {
-            verificarToken(error.response.data.message[0]);
-
+            if (error.response.status === 401) {
+                verificarToken(error.response.data.message[0]);
+            }
         })
     };
     buscarResponsaveis();
@@ -256,11 +281,13 @@ onMounted(() => {
                 <div class="col">
                     <InputComponent label="Titulo" for-id="tituloTarefa">
                         <input type="text" class="form-control" required v-model="titulo">
+                        <span v-if="errorMessage.titulo" style="color: red;">{{ errorMessage.titulo }}</span>
                     </InputComponent>
                 </div>
                 <div class="col">
                     <InputComponent label="Descrição" for-id="descricaoTarefa">
                         <input type="text" class="form-control" required v-model="descricao">
+                        <span v-if="errorMessage.descricao" style="color: red;">{{ errorMessage.descricao }}</span>
                     </InputComponent>
                 </div>
             </div>
