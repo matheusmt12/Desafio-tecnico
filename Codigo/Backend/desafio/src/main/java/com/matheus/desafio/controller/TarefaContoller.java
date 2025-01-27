@@ -1,6 +1,7 @@
 package com.matheus.desafio.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
@@ -24,27 +25,37 @@ public class TarefaContoller {
     private TarefaService service;
 
     @GetMapping
-    public ResponseEntity<?> get(){
+    public ResponseEntity<?> get() {
         try {
-            return new ResponseEntity<>(service.getAll(),HttpStatus.valueOf(200) );
+            return new ResponseEntity<>(service.getAll(), HttpStatus.valueOf(200));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
+        }
+    }
+    @GetMapping("/index/{idProjeto}")
+    public ResponseEntity<?> getAllIndex(@PathVariable int idProjeto, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size, @RequestParam(defaultValue = "") String titulo,
+            @RequestParam(defaultValue = "") String status) {
+        try {
+            return new ResponseEntity<>(service.getPageTarefa(idProjeto,page,size,titulo,status), HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> post (@RequestBody TarefaDTO tarefa){
+    public ResponseEntity<?> post(@RequestBody TarefaDTO tarefa) {
         try {
             return new ResponseEntity<>(service.insert(tarefa), HttpStatus.valueOf(201));
         } catch (Exception e) {
             // TODO: handle exception
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
 
-    }   
+    }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getIdProjeto(@PathVariable int id){
+    public ResponseEntity<?> getIdProjeto(@PathVariable int id) {
         try {
             return new ResponseEntity<>(service.getTarefaIdPRojeto(id), HttpStatus.valueOf(200));
         } catch (Exception e) {
@@ -54,11 +65,11 @@ public class TarefaContoller {
     }
 
     @PutMapping("/alterar/{id}")
-    public ResponseEntity<?> alterarStatus(@PathVariable int id, @RequestBody AlterarStatusDTO alterar ){
+    public ResponseEntity<?> alterarStatus(@PathVariable int id, @RequestBody AlterarStatusDTO alterar) {
         try {
-            return new ResponseEntity<>(service.alterarStatus(id, alterar),HttpStatus.valueOf(200));
+            return new ResponseEntity<>(service.alterarStatus(id, alterar), HttpStatus.valueOf(200));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
     }
 }

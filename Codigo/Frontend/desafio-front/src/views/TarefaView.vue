@@ -10,6 +10,8 @@ import InputComponent from '@/components/InputComponent.vue';
 import StatusTarefaEnum from '@/enums/StatusTarefaEnum';
 import StatusTarefaInicioEnum from '@/enums/StatusTarefaInicioEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
+import RadioStatusComponent from '@/components/RadioStatusComponent.vue';
 
 
 //variáveis
@@ -19,6 +21,10 @@ const dadosTarefas = ref([]);
 const dadosResponsaveis = ref([]);
 const statusAlterar = ref(true);
 const tarefa = ref(null);
+const pageable = ref([]);
+const page = ref(0);
+const statusConsulta = ref("");
+const pesquisaTitulo = ref("");
 
 //variáveis Alert
 
@@ -46,7 +52,7 @@ function fecharModal() {
     visivelModal.value = false;
     visivelModalStatus.value = false;
     sucesso.value = false;
-    menssagem.value ="";
+    menssagem.value = "";
     erro.value = false;
     statusAlertSucesso.value = "";
 }
@@ -58,22 +64,41 @@ function mudarStatus(obj) {
 
 //fim modal
 
-//funções
+//funções Token
 function token() {
     return localStorage.getItem('token');
 }
+
+function verificarToken(menssagem) {
+    if ('Token inválido!' === menssagem) {
+            router.push({path : '/login', query:{menssagem : 'Sessão expirada' }} );
+        }
+}
+
+//funções
 function buscarTarefas() {
 
-    axios.get(url + '/' + idProjeto, {
+    axios.get(url + '/index/' + idProjeto, {
         headers: {
             'Authorization': 'Bearer ' + token()
+        },
+        params: {
+            page: page.value,
+            titulo: pesquisaTitulo.value,
+            status: statusConsulta.value
+            
         }
     }).then(response => {
-        dadosTarefas.value = response.data;
-        console.log(dadosTarefas.value);
+        dadosTarefas.value = response.data.content;
+        
+        pageable.value = response.data;
 
+    }).catch(error =>{
+        console.log('ta qui');
+        verificarToken(error.response.data.message[0]);
     });
 }
+
 
 function salvarNovaTarefa() {
     let idResponsavel = document.getElementById('idResponsavel').value;
@@ -105,6 +130,7 @@ function salvarNovaTarefa() {
 
     }).catch(error => {
 
+        verificarToken(error.response.data.message[0]);
         sucesso.value = false;
         menssagem.value = error.response.data;
         erro.value = true;
@@ -123,14 +149,15 @@ function alterarStatus() {
         }
     }
     ).then(response => {
-        console.log(response.data);
         sucesso.value = true;
         menssagem.value = response.data.message[0];
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
+        tarefa.value.status = status;
+        mudarStatus(tarefa.value);
         buscarTarefas();
     }).catch(error => {
-
+        verificarToken(error.response.data.message[0]);
         sucesso.value = false;
         menssagem.value = error.response.message;
         erro.value = true;
@@ -139,7 +166,24 @@ function alterarStatus() {
 
 }
 
+// pagina
 
+function mudarPagina(pageNumber) {
+    page.value = pageNumber;
+    buscarTarefas();
+}
+
+function pesquisarNome(nome) {
+    pesquisaTitulo.value = nome;
+
+    buscarTarefas();
+}
+
+function consultaPorStatus(status) {
+    statusConsulta.value = status;
+    
+    buscarTarefas();
+}
 
 onMounted(() => {
     buscarTarefas();
@@ -152,6 +196,9 @@ onMounted(() => {
         }).then(response => {
             dadosResponsaveis.value = response.data;
 
+        }).catch(error =>{
+            verificarToken(error.response.data.message[0]);
+
         })
     };
     buscarResponsaveis();
@@ -159,19 +206,35 @@ onMounted(() => {
 </script>
 
 <template>
-    <NavbarComponent></NavbarComponent>
+    <NavbarComponent place="Título da Tarefa" @pesquisar-nome="pesquisarNome"></NavbarComponent>
     <CardComponent titulo="Tarefas">
         <template v-slot:conteudo>
-            <span v-if="dadosTarefas.length === 0">
-                <p>Esse Projeto não Possui nunhuma tarefa</p>
-            </span>
-            <span v-else>
-                <TableComponent @funcStatus="mudarStatus" :status-alterar="statusAlterar" :dados="dadosTarefas"
-                    :titulos="['titulo', 'nome_responsavel', 'status']"></TableComponent>
-            </span>
+
+            <div class="row">
+                <div class="col text-start" style="padding-bottom: 5px;">
+                    <button class="btn btn-primary" @click="abrirModal">Adicionar</button>
+                </div>
+                <div class="col  text-end">
+                    <RadioStatusComponent :titulos="['Planejado','Em execução','Abortado','Finalizado']" @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span v-if="dadosTarefas.length === 0 && statusConsulta != ''">
+                        <p>Esse Projeto não Possui nunhuma tarefa {{ statusConsulta }}</p>
+                    </span>
+                    <span if v-else-if="dadosTarefas.length === 0">
+                        Esse Projeto não Possui nunhuma tarefa 
+                    </span>
+                    <span v-else>
+                        <TableComponent @funcStatus="mudarStatus" :status-alterar="statusAlterar" :dados="dadosTarefas"
+                            :titulos="['titulo', 'nome_responsavel', 'status']"></TableComponent>
+                    </span>
+                </div>
+            </div>
         </template>
         <template v-slot:footer>
-            <button class="btn btn-primary" @click="abrirModal">Adicionar</button>
+            <PaginationComponent :dados-pagina="pageable" @mudar-pagina="mudarPagina"></PaginationComponent>
         </template>
     </CardComponent>
 
@@ -255,6 +318,8 @@ onMounted(() => {
                     <InputComponent label="Responsavel">
                         <label class="form-control">{{ tarefa.nome_responsavel }}</label>
                     </InputComponent>
+                    <InputComponent label="Status Atual">
+                    <label class="form-control">{{ tarefa.status }}</label></InputComponent>
                 </div>
             </div>
             <h5>Alterar Status</h5>

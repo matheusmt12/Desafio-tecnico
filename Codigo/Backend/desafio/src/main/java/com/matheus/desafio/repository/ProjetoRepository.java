@@ -52,6 +52,9 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
                         "WHERE T.STATUS != 'FINALIZADO' AND T.STATUS != 'ABORTADO' AND P.ID = :id LIMIT 1", nativeQuery = true)
         Optional<ProjetoTarefaStatusDTO> vericarStatus(@Param("id") int id);
 
+
+        //page
+
         @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
                         " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)

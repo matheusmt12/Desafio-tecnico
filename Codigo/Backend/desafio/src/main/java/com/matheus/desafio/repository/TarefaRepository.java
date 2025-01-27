@@ -2,6 +2,8 @@ package com.matheus.desafio.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,12 +29,42 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
                         @Param("id_responsavel") int id_responsavel);
 
         @Query(value = "SELECT T.id, T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
-                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)"+
-                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)"+
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)" +
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)" +
                         " WHERE T.id_projeto = :idProjeto", nativeQuery = true)
         List<TarefaDTO> getTarefaIdProjeto(@Param("idProjeto") int idProjeto);
 
         @Modifying
         @Query(value = "UPDATE TB_TAREFAS SET STATUS = :status WHERE ID = :id", nativeQuery = true)
         void alterarStatusTarefa(@Param("id") int id, @Param("status") String status);
+
+
+        // page
+
+        @Query(value = "SELECT T.id, T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)" +
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)" +
+                        " WHERE T.id_projeto = :idProjeto", nativeQuery = true)
+        Page<TarefaDTO> getPageTarefa(Pageable pageable, @Param("idProjeto") int idProjeto);
+
+        @Query(value = "SELECT T.id, T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)" +
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)" +
+                        " WHERE T.id_projeto = :idProjeto AND T.titulo LIKE :titulo", nativeQuery = true)
+        Page<TarefaDTO> getPageTarefaTitulo(Pageable pageable, @Param("idProjeto") int idProjeto,
+                        @Param("titulo") String titulo);
+
+        @Query(value = "SELECT T.id, T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)" +
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)" +
+                        " WHERE T.id_projeto = :idProjeto AND T.status = :status", nativeQuery = true)
+        Page<TarefaDTO> getPageTarefaStatus(Pageable pageable, @Param("idProjeto") int idProjeto,
+                        @Param("status") String status);
+
+        @Query(value = "SELECT T.id, T.titulo, T.descricao, T.prazo, T.status, T.id_projeto, T.id_responsavel, RT.nome as nome_responsavel FROM "
+                        + "TB_TAREFAS T JOIN TB_PROJETOS P ON(T.ID_PROJETO = P.ID)" +
+                        "LEFT JOIN TB_RESPONSAVEL_TAREFA RT ON (T.id_responsavel = RT.id)" +
+                        " WHERE T.id_projeto = :idProjeto AND T.titulo LIKE :titulo AND T.status = :status", nativeQuery = true)
+        Page<TarefaDTO> getPageTarefaTituloStatus(Pageable pageable, @Param("idProjeto") int idProjeto,
+                        @Param("titulo") String titulo, @Param("status") String status);
 }

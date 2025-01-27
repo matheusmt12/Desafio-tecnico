@@ -3,6 +3,9 @@ package com.matheus.desafio.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
@@ -37,18 +40,33 @@ public class TarefaService {
         }
     }
 
-    public List<TarefaDTO> getTarefaIdPRojeto(int id){
+    public List<TarefaDTO> getTarefaIdPRojeto(int id) {
 
         return repository.getTarefaIdProjeto(id);
     }
 
     @Transactional
-    public ResponseDTO<?> alterarStatus(int id, AlterarStatusDTO alterar){
+    public ResponseDTO<?> alterarStatus(int id, AlterarStatusDTO alterar) {
         try {
             repository.alterarStatusTarefa(id, alterar.getStatus());
             return new ResponseDTO<>("Status Alterado", null);
         } catch (Exception e) {
             return new ResponseDTO<>(e.getMessage(), null);
+        }
+    }
+
+    public Page<TarefaDTO> getPageTarefa(int idProjeto , int page, int size, String titulo, String status) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            if (titulo.isEmpty() && status.isEmpty())
+                return repository.getPageTarefa(pageable ,idProjeto);
+            else if (!titulo.isEmpty() && !status.isEmpty())
+                return null;
+            else if (!titulo.isEmpty() && status.isEmpty())
+                return repository.getPageTarefaTitulo(pageable,idProjeto, "%"+titulo+"%");
+            return repository.getPageTarefaStatus(pageable,idProjeto, status);
+        } catch (Exception e) {
+            return null;
         }
     }
 }
