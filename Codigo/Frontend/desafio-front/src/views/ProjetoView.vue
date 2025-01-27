@@ -67,6 +67,10 @@ const fecharModal = () => {
     statusAlertSucesso.value = "";
     statusAlertErro.value = "";
 
+    nomeProjeto.value = ''
+    decricaoProjeto.value = '';
+    dataInicio.value = '';
+    dataTermino.value = '';
 }
 
 function mudarStatusModal(obj) {
@@ -106,7 +110,10 @@ function buscarProjetos() {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
     }).catch(error => {
-        verificarToken(error.response.data.message[0]);
+        
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
     });
 
 }
@@ -116,7 +123,6 @@ function pesquisarNome(params) {
     nomePesquisa.value = params;
     buscarProjetos();
 }
-
 
 //SALVAR 
 function salvarProjeto() {
@@ -129,8 +135,6 @@ function salvarProjeto() {
     errorMessage.value.data_termino = '';
     errorMessage.value.nome = '';
     errorMessage.value.descricao = '';
-
-
     let data = {
         nome: nomeProjeto.value,
         descricao: decricaoProjeto.value,
@@ -139,6 +143,9 @@ function salvarProjeto() {
         status: statusProjeto,
         id_responsavel: idResponsavel
     };
+
+    console.log(data);
+
     axios.post(url, data, {
         headers: {
             'Authorization': 'Bearer ' + token()
@@ -152,7 +159,9 @@ function salvarProjeto() {
         dataTermino.value = "";
 
         // menssagem alert
-        menssagem.value = response.data.message[0];
+        menssagem.value = response.data;
+        console.log(menssagem.value);
+
         sucesso.value = true;
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
@@ -167,11 +176,19 @@ function salvarProjeto() {
         erro.value = true;
         sucesso.value = false;
         statusAlertErro.value = "Erro:";
+
         if (errorMessage.value.data_inicio || errorMessage.value.data_termino ||
             errorMessage.value.descricao || errorMessage.value.nome) {
-                menssagem.value = "Preencha os campos necessários"
+            menssagem.value = "Preencha os campos necessários"
+
+            return;
         }
-        verificarToken(error.response.data.message[0]);
+
+        menssagem.value = error.response.data;
+
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
 
     })
 
@@ -203,8 +220,10 @@ function alterarStatus(idProjeto) {
         sucesso.value = false;
         menssagem.value = error.response.data;
         statusAlertErro.value = "Erro"
-        verificarToken(error.response.data.message[0]);
 
+        if (error.response.status === 401) {
+            verificarToken(error.response.data.message[0]);
+        }
     })
 
 }
@@ -239,8 +258,10 @@ onMounted(() => {
         }).then(response => {
             dadosResponsavel.value = response.data
         }).catch(error => {
-            verificarToken(error.response.data.message[0]);
 
+            if (error.response.status === 401) {
+                verificarToken(error.response.data.message[0]);
+            }
         })
     }
     carregarResponsavelProjeto()

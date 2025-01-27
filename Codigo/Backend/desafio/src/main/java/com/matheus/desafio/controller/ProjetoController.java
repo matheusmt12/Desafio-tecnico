@@ -14,7 +14,6 @@ import com.matheus.desafio.service.ProjetoService;
 
 import jakarta.validation.Valid;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +59,7 @@ public class ProjetoController {
     @PostMapping()
     public ResponseEntity<?> post(@RequestBody @Valid ProjetoDTO projeto) {
         try {
+            
             return new ResponseEntity<>(service.insert(projeto), HttpStatus.valueOf(201));
         }catch(DataInvalidaException ex){
             return new ResponseEntity<>(ex.getMessage(),HttpStatus.valueOf(400));

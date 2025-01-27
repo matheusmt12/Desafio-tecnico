@@ -1,7 +1,10 @@
 package com.matheus.desafio.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
 import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
-import com.matheus.desafio.dto.ResponseDTO;
+import com.matheus.desafio.exceptions.DataInvalidaException;
 import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
@@ -25,19 +28,36 @@ public class ProjetoService {
     @Autowired
     private ProjetoRepository repository;
 
+
+
+    // funcção para adicionar um dia 
+    private Date adicionarUmDia(Date data) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        calendar.add(Calendar.DATE, 1);
+        return calendar.getTime();
+    }
+
     @Transactional
-    public ResponseDTO<?> insert(ProjetoDTO projeto) {
+    public String insert(ProjetoDTO projeto) {
 
-        try {
-            repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
-                    projeto.getData_termino(),
-                    projeto.getStatus(), projeto.getId_responsavel());
+        Date dataInicio = adicionarUmDia(projeto.getData_inicio());
+        Date dataTermino = adicionarUmDia(projeto.getData_termino());
 
-            return new ResponseDTO<>("Novo Projeto Adicionado", null);
-        } catch (Exception e) {
-            return new ResponseDTO<>("Erro ao Adicionar um novo Projeto", null);
+
+        if (dataInicio.before(new Date())) {
+            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
+        }
+        if (dataTermino.before(dataInicio)) {
+            throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
+
         }
 
+        repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), dataInicio,
+                dataTermino,
+                projeto.getStatus(), projeto.getId_responsavel());
+
+        return "Novo Projeto Adicionado";
     }
 
     public List<ProjetoDTO> getProjetos() {
