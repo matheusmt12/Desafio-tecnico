@@ -76,8 +76,8 @@ function token() {
 
 function verificarToken(menssagem) {
     if ('Token inválido!' === menssagem) {
-            router.push({path : '/login', query:{menssagem : 'Sessão expirada' }} );
-        }
+        router.push({ path: '/login', query: { menssagem: 'Sessão expirada' } });
+    }
 }
 
 
@@ -96,7 +96,7 @@ function buscarProjetos() {
     }).then(response => {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
-    }).catch(error =>{
+    }).catch(error => {
         verificarToken(error.response.data.message[0]);
     });
 
@@ -189,7 +189,7 @@ function mudarPage(page) {
 
 function consultaPorStatus(status) {
     statusConsulta.value = status;
-    
+
     buscarProjetos();
 }
 
@@ -231,16 +231,25 @@ onMounted(() => {
                     <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
                 </div>
                 <div class="col text-end">
-                    <RadioStatusComponent :titulos="['Planejado','Em execução','Abortado','Finalizado']" @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
+                    <RadioStatusComponent :titulos="['Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                        @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <TableComponent :dados="dadosProjeto"
+                    <span v-if="dadosProjeto.length === 0 && statusConsulta != ''">
+                        <p>Não há nenhum projeto {{ statusConsulta }} </p>
+                    </span>
+                    <span v-else-if="dadosProjeto.length === 0">
+                        <p> Não há nenhum projeto</p>
+                    </span>
+                    <span v-else>
+                        <TableComponent :dados="dadosProjeto"
                         :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
                         :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
                         @funcFinalizar="mudarStatusModal">
                     </TableComponent>
+                    </span>
                 </div>
             </div>
 
