@@ -11,6 +11,7 @@ import InputComponent from '@/components/InputComponent.vue';
 import StatusProjetoEnumInicial from '@/enums/StatusProjetoEnumInicial';
 import StatusProjetoEnum from '@/enums/StatusProjetoEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
+import PaginationComponent from '@/components/PaginationComponent.vue';
 //variáveis 
 const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
@@ -19,6 +20,8 @@ const tarefas = ref(true);
 const finalizarProjeto = ref(true);
 const dadosResponsavel = ref([]);
 const projeto = ref(null);
+const pageable = ref([]);
+const numPage = ref(0);
 
 //variáveis para adicionar um novo projeto  
 const nomeProjeto = ref("");
@@ -52,7 +55,7 @@ const fecharModal = () => {
     erro.value = false;
     statusAlertSucesso.value = "";
     statusAlertErro.value = "";
-    
+
 }
 
 function mudarStatusModal(obj) {
@@ -71,12 +74,16 @@ function token() {
 
 function buscarProjetos() {
 
-    axios.get(url, {
+    axios.get(url + "/index", {
         headers: {
             'Authorization': 'Bearer ' + token()
+        },
+        params :{
+            page : numPage.value
         }
     }).then(response => {
-        dadosProjeto.value = response.data
+        dadosProjeto.value = response.data.content;
+        pageable.value = response.data;
     });
 
 }
@@ -144,7 +151,7 @@ function alterarStatus(idProjeto) {
     }).then(response => {
         sucesso.value = true;
         erro.value = false;
-        menssagem.value = response.data;        
+        menssagem.value = response.data;
         statusAlertSucesso.value = "Sucesso";
         buscarProjetos();
 
@@ -155,6 +162,13 @@ function alterarStatus(idProjeto) {
         statusAlertErro.value = "Erro"
     })
 
+}
+
+function mudarPage(page) {
+    numPage.value = page;
+    buscarProjetos();
+    
+    
 }
 
 //metodo para redirecionar para as tarefas do projeto
@@ -190,21 +204,35 @@ onMounted(() => {
     <NavbarComponent @pesquisarNome="pesquisarNome"></NavbarComponent>
     <CardComponent titulo="Projetos">
         <template v-slot:conteudo>
-            <TableComponent :dados="dadosProjeto" :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
-                :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
-                @funcFinalizar="mudarStatusModal">
-            </TableComponent>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col">
+                    <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <TableComponent :dados="dadosProjeto"
+                        :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
+                        :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
+                        @funcFinalizar="mudarStatusModal">
+                    </TableComponent>
+                </div>
+            </div>
+
+
         </template>
         <template v-slot:footer>
-            <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
+            <PaginationComponent :dados-pagina="pageable" @mudar-pagina="mudarPage"></PaginationComponent>
         </template>
     </CardComponent>
 
 
     <ModalComponent :visivel="modalVisivel" titulo="Novo Projeto">
         <template v-slot:alert>
-            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success" :status="statusAlertSucesso"></AlertComponent>
-            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro"></AlertComponent>
+            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"
+                :status="statusAlertSucesso"></AlertComponent>
+            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro">
+            </AlertComponent>
         </template>
         <template v-slot:conteudo>
             <div class="row">
@@ -253,8 +281,10 @@ onMounted(() => {
     </ModalComponent>
     <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
         <template v-slot:alert>
-            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success" :status="statusAlertSucesso"></AlertComponent>
-            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro"></AlertComponent>
+            <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"
+                :status="statusAlertSucesso"></AlertComponent>
+            <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro">
+            </AlertComponent>
         </template>
         <template v-slot:conteudo>
             <div class="row">
