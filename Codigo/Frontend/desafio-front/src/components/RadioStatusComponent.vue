@@ -12,7 +12,7 @@ function status(titulo) {
         <div class="col" v-for="titulo in titulos">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="exampleRadios" :id="titulo" :value="titulo"
-                    checked @click="status(titulo)">
+                     @click="status(titulo)">
                 <label class="form-check-label" for="exampleRadios1">
                     {{ titulo }}
                 </label>

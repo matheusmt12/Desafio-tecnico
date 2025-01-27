@@ -82,7 +82,8 @@ function buscarProjetos() {
         },
         params: {
             page: numPage.value,
-            nome: nomePesquisa.value
+            nome: nomePesquisa.value,
+            status: statusConsulta.value
         }
     }).then(response => {
         dadosProjeto.value = response.data.content;
@@ -175,7 +176,6 @@ function mudarPage(page) {
 
 function consultaPorStatus(status) {
     statusConsulta.value = status;
-    console.log(statusConsulta.value.toUpperCase());
     
     buscarProjetos();
 }

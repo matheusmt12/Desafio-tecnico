@@ -37,9 +37,10 @@ public class ProjetoController {
 
     @GetMapping("/index")
     public ResponseEntity<?> getAllIndex(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size , @RequestParam(defaultValue = "") String nome) {
+            @RequestParam(defaultValue = "6") int size, @RequestParam(defaultValue = "") String nome,
+            @RequestParam(defaultValue = "") String status) {
         try {
-            return new ResponseEntity<>(service.getPageProjetos(page, size, nome), HttpStatus.valueOf(200));
+            return new ResponseEntity<>(service.getPageProjetos(page, size, nome,status), HttpStatus.valueOf(200));
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }

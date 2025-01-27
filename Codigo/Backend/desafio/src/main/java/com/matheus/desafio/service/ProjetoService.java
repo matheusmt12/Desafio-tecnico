@@ -44,13 +44,17 @@ public class ProjetoService {
         return repository.getProjetos();
     }
 
-    public Page<ProjetoDTO> getPageProjetos(int page, int size, String nome) {
+    public Page<ProjetoDTO> getPageProjetos(int page, int size, String nome, String status) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            if (nome.isEmpty()) {
+            if (nome.isEmpty() && status.isEmpty()) {
                 return repository.getProjetosPage(pageable);
+            }else if(!nome.isEmpty() && !status.isEmpty()){
+                return repository.getProjetosPageNomeStatus(pageable,  status ,"%"+nome+"%");
+            }else if(!nome.isEmpty() && status.isEmpty()){
+                return repository.getProjetosPageNome(pageable,"%" +nome +"%");
             }
-            return repository.getProjetosPageNome(pageable,"%" +nome +"%");
+            return repository.getProjetosPageStatus(pageable, status);
 
         } catch (Exception e) {
             return null;

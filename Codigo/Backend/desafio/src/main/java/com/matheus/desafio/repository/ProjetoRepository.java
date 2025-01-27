@@ -62,4 +62,13 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
                         " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome", nativeQuery = true)
         Page<ProjetoDTO> getProjetosPageNome(Pageable pageable, String nome);
 
+        @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
+                        +
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.status = :status", nativeQuery = true)
+        Page<ProjetoDTO> getProjetosPageStatus(Pageable pageable, String status);
+
+        @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
+                        +
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome AND P.status = :status", nativeQuery = true)
+        Page<ProjetoDTO> getProjetosPageNomeStatus(Pageable pageable, String status, String nome);
 }
