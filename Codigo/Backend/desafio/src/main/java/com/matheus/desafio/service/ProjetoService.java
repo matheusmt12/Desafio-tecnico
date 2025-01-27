@@ -44,10 +44,14 @@ public class ProjetoService {
         return repository.getProjetos();
     }
 
-    public Page<ProjetoDTO> getPageProjetos(int page , int size ){
+    public Page<ProjetoDTO> getPageProjetos(int page, int size, String nome) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-             return repository.getProjetosPage(pageable);
+            if (nome.isEmpty()) {
+                return repository.getProjetosPage(pageable);
+            }
+            return repository.getProjetosPageNome(pageable,"%" +nome +"%");
+
         } catch (Exception e) {
             return null;
         }
@@ -60,15 +64,15 @@ public class ProjetoService {
         if (projetoId.isEmpty()) {
             throw new NoFindProjetoException("O projeto não foi encontrado");
         }
-        
+
         if (alterar.getStatus().equals("FINALIZADO")) {
             Optional<ProjetoTarefaStatusDTO> tarefas = repository.vericarStatus(id);
             if (tarefas.isPresent()) {
-                throw new FinalizarProjetoException("A tarefa " + tarefas.get().getNome_tarefa()+ " ainda não foi finaliada");
+                throw new FinalizarProjetoException(
+                        "A tarefa " + tarefas.get().getNome_tarefa() + " ainda não foi finaliada");
             }
         }
-        
-        
+
         repository.alterarStatus(id, alterar.getStatus());
 
         return "Status Alterado";

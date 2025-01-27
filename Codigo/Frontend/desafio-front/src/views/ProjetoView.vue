@@ -79,7 +79,8 @@ function buscarProjetos() {
             'Authorization': 'Bearer ' + token()
         },
         params :{
-            page : numPage.value
+            page : numPage.value,
+            nome : nomePesquisa.value
         }
     }).then(response => {
         dadosProjeto.value = response.data.content;
@@ -88,10 +89,10 @@ function buscarProjetos() {
 
 }
 
+// buscar por nome
 function pesquisarNome(params) {
     nomePesquisa.value = params;
-    console.log(nomePesquisa.value);
-
+    buscarProjetos();
 }
 
 function salvarProjeto() {
@@ -201,7 +202,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <NavbarComponent @pesquisarNome="pesquisarNome"></NavbarComponent>
+    <NavbarComponent @pesquisarNome="pesquisarNome" place="Nome Projeto"></NavbarComponent>
     <CardComponent titulo="Projetos">
         <template v-slot:conteudo>
             <div class="row" style="padding-bottom: 5px;">

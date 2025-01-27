@@ -19,9 +19,9 @@ import com.matheus.desafio.entity.Projeto;
 @Repository
 public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
-        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel, RR.nome as nome_responsavel"
+        @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS T JOIN TB_RESPONSAVEL_PROJETO RR ON (T.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
         List<ProjetoDTO> getProjetos();
 
         @Modifying
@@ -52,9 +52,14 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
                         "WHERE T.STATUS != 'FINALIZADO' AND T.STATUS != 'ABORTADO' AND P.ID = :id LIMIT 1", nativeQuery = true)
         Optional<ProjetoTarefaStatusDTO> vericarStatus(@Param("id") int id);
 
-        @Query(value = "SELECT T.id, T.nome, T.descricao, T.data_inicio, T.data_termino,T.status,T.id_responsavel, RR.nome as nome_responsavel"
+        @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS T JOIN TB_RESPONSAVEL_PROJETO RR ON (T.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
         Page<ProjetoDTO> getProjetosPage(Pageable pageable);
+
+        @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
+                        +
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome", nativeQuery = true)
+        Page<ProjetoDTO> getProjetosPageNome(Pageable pageable, String nome);
 
 }

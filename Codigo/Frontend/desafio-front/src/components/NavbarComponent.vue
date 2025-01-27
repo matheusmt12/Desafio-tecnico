@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-
+const props = defineProps(['place'])
 const emit = defineEmits(['pesquisarNome']);
 
 const nomeProjeto = ref("");
@@ -42,8 +42,8 @@ function search(nome) {
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" @submit.prevent="search(nomeProjeto)">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="nomeProjeto">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" :placeholder="place" aria-label="Search" v-model="nomeProjeto">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
         </div>
     </nav>
