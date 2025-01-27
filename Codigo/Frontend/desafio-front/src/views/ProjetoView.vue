@@ -290,7 +290,8 @@ onMounted(() => {
                         <p>Não há nenhum projeto {{ statusConsulta }} </p>
                     </span>
                     <span v-else-if="dadosProjeto.length === 0">
-                        <p> Não há nenhum projeto</p>
+                        <p v-if="nomePesquisa != ''"> Não há nenhum projeto {{ nomePesquisa }}</p>
+                        <p v-else> Não há nenhum projeto </p>
                     </span>
                     <span v-else>
                         <TableComponent :dados="dadosProjeto"

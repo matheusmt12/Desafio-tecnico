@@ -71,8 +71,8 @@ function token() {
 
 function verificarToken(menssagem) {
     if ('Token inválido!' === menssagem) {
-            router.push({path : '/login', query:{menssagem : 'Sessão expirada' }} );
-        }
+        router.push({ path: '/login', query: { menssagem: 'Sessão expirada' } });
+    }
 }
 
 //funções
@@ -86,20 +86,21 @@ function buscarTarefas() {
             page: page.value,
             titulo: pesquisaTitulo.value,
             status: statusConsulta.value
-            
+
         }
     }).then(response => {
         dadosTarefas.value = response.data.content;
-        
+
         pageable.value = response.data;
 
-    }).catch(error =>{
+    }).catch(error => {
         console.log('ta qui');
         verificarToken(error.response.data.message[0]);
     });
 }
 
 
+//Salvar 
 function salvarNovaTarefa() {
     let idResponsavel = document.getElementById('idResponsavel').value;
     let status = document.getElementById('tarefaStatus').value;
@@ -124,6 +125,10 @@ function salvarNovaTarefa() {
         menssagem.value = response.data;
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
+        titulo.value = '';
+        descricao.value ='';
+        prazo.value = 0;
+
 
         buscarTarefas();
 
@@ -181,7 +186,7 @@ function pesquisarNome(nome) {
 
 function consultaPorStatus(status) {
     statusConsulta.value = status;
-    
+
     buscarTarefas();
 }
 
@@ -196,7 +201,7 @@ onMounted(() => {
         }).then(response => {
             dadosResponsaveis.value = response.data;
 
-        }).catch(error =>{
+        }).catch(error => {
             verificarToken(error.response.data.message[0]);
 
         })
@@ -215,7 +220,8 @@ onMounted(() => {
                     <button class="btn btn-primary" @click="abrirModal">Adicionar</button>
                 </div>
                 <div class="col  text-end">
-                    <RadioStatusComponent :titulos="['Planejado','Em execução','Abortado','Finalizado']" @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
+                    <RadioStatusComponent :titulos="['Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                        @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
             <div class="row">
@@ -224,7 +230,7 @@ onMounted(() => {
                         <p>Esse Projeto não Possui nunhuma tarefa {{ statusConsulta }}</p>
                     </span>
                     <span if v-else-if="dadosTarefas.length === 0">
-                        Esse Projeto não Possui nunhuma tarefa 
+                        Esse Projeto não Possui nunhuma tarefa
                     </span>
                     <span v-else>
                         <TableComponent @funcStatus="mudarStatus" :status-alterar="statusAlterar" :dados="dadosTarefas"
@@ -260,7 +266,7 @@ onMounted(() => {
             </div>
             <div class="row">
                 <div class="col">
-                    <InputComponent label="Prazo" for-id="prazoTarefa">
+                    <InputComponent label="Prazo (dia)" for-id="prazoTarefa">
                         <input type="number" min="1" required v-model="prazo" class="form-control">
                     </InputComponent>
                 </div>
@@ -319,7 +325,8 @@ onMounted(() => {
                         <label class="form-control">{{ tarefa.nome_responsavel }}</label>
                     </InputComponent>
                     <InputComponent label="Status Atual">
-                    <label class="form-control">{{ tarefa.status }}</label></InputComponent>
+                        <label class="form-control">{{ tarefa.status }}</label>
+                    </InputComponent>
                 </div>
             </div>
             <h5>Alterar Status</h5>
