@@ -25,6 +25,15 @@ const pageable = ref([]);
 const numPage = ref(0);
 const statusConsulta = ref("");
 
+//Variaveis para erro de inserção
+
+const errorMessage = ref({
+    nome: '',
+    data_inicio: '',
+    data_termino: '',
+    descricao: ''
+})
+
 //variáveis para adicionar um novo projeto  
 const nomeProjeto = ref("");
 const decricaoProjeto = ref("");
@@ -108,9 +117,19 @@ function pesquisarNome(params) {
     buscarProjetos();
 }
 
+
+//SALVAR 
 function salvarProjeto() {
     let statusProjeto = document.getElementById('statusProjeto').value;
     let idResponsavel = document.getElementById('idResponsavel').value;
+
+    //limpando menssagens de erro
+
+    errorMessage.value.data_inicio = '';
+    errorMessage.value.data_termino = '';
+    errorMessage.value.nome = '';
+    errorMessage.value.descricao = '';
+
 
     let data = {
         nome: nomeProjeto.value,
@@ -141,11 +160,19 @@ function salvarProjeto() {
 
 
     }).catch(error => {
-        verificarToken(error.response.data.message[0]);
-        menssagem.value = error;
+        errorMessage.value.nome = error.response.data.nome;
+        errorMessage.value.data_inicio = error.response.data.data_inicio;
+        errorMessage.value.data_termino = error.response.data.data_termino;
+        errorMessage.value.descricao = error.response.data.descricao
         erro.value = true;
         sucesso.value = false;
-        statusAlertErro.value = "Erro";
+        statusAlertErro.value = "Erro:";
+        if (errorMessage.value.data_inicio || errorMessage.value.data_termino ||
+            errorMessage.value.descricao || errorMessage.value.nome) {
+                menssagem.value = "Preencha os campos necessários"
+        }
+        verificarToken(error.response.data.message[0]);
+
     })
 
 
@@ -172,11 +199,12 @@ function alterarStatus(idProjeto) {
         buscarProjetos();
 
     }).catch(error => {
-        verificarToken(error.response.data.message[0]);
         erro.value = true;
         sucesso.value = false;
         menssagem.value = error.response.data;
         statusAlertErro.value = "Erro"
+        verificarToken(error.response.data.message[0]);
+
     })
 
 }
@@ -245,10 +273,10 @@ onMounted(() => {
                     </span>
                     <span v-else>
                         <TableComponent :dados="dadosProjeto"
-                        :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
-                        :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
-                        @funcFinalizar="mudarStatusModal">
-                    </TableComponent>
+                            :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
+                            :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
+                            @funcFinalizar="mudarStatusModal">
+                        </TableComponent>
                     </span>
                 </div>
             </div>
@@ -274,12 +302,15 @@ onMounted(() => {
                     <InputComponent forId="idNome" label="Nome">
                         <input type="text" id="idNome" placeholder="Nome" class="form-control" required
                             v-model="nomeProjeto">
+                        <span v-if="errorMessage.nome != ''" style="color: red;">{{ errorMessage.nome }}</span>
                     </InputComponent>
                 </div>
                 <div class="col">
                     <InputComponent forId="idDescricao" label="Descrição">
                         <input type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
                             v-model="decricaoProjeto">
+                        <span v-if="errorMessage.descricao != ''" style="color: red;">{{ errorMessage.descricao
+                            }}</span>
                     </InputComponent>
                 </div>
             </div>
@@ -287,11 +318,16 @@ onMounted(() => {
                 <div class="col">
                     <InputComponent forId="idDataInicio" label="Data Inicio">
                         <input type="date" class="form-control" required v-model="dataInicio">
+                        <span v-if="errorMessage.data_inicio != ''" style="color: red;">{{ errorMessage.data_inicio
+                            }}</span>
                     </InputComponent>
                 </div>
                 <div class="col">
                     <InputComponent forId="idDataTermino" label="Data Termino">
                         <input type="date" class="form-control" required v-model="dataTermino">
+                        <span v-if="errorMessage.data_termino != ''" style="color: red;">{{
+                            errorMessage.data_termino }}</span>
+
                     </InputComponent>
                 </div>
             </div>

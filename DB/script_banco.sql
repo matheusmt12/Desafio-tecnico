@@ -21,7 +21,7 @@ CREATE TABLE tb_projetos (
     FOREIGN KEY (ID_RESPONSAVEL) REFERENCES tb_responsavel_projeto(ID)
 );
 
-INSERT INTO tb_projetos VALUES (null, 'teste','teste descricao',  '2025-01-20', '2025-01-30', 'asdasda',1);
+INSERT INTO tb_projetos VALUES (null, null,'teste descricao',  '2025-01-20', '2025-01-30', 'PLANEJADO',1);
 
 SELECT * FROM TB_PROJETOS;
 
@@ -53,10 +53,19 @@ CREATE TABLE USER(
     
 );
 
+INSERT INTO USER VALUES(null,'matheus','$2a$10$XBRZyobS/.g2NNARDUSTDu8cMAvq9GOYESCrFQzsum9BYQf6uf19e');
+select * from tb_projetos;
+
+
 select * from user;
 
 SELECT RT.ID, RT.NOME, T.titulo as nomeProjeto, T.STATUS FROM TB_RESPONSAVEL_TAREFA RT JOIN TB_TAREFAS T ON (RT.ID = T.ID_RESPONSAVEL);
+
 drop database desafio;
 
 SELECT T.titulo as nome_tarefa, T.status FROM TB_PROJETOS P JOIN TB_TAREFAS T ON (P.ID = T.ID_PROJETO)
         WHERE T.STATUS != 'FINALIZADO' AND T.STATUS != 'ABORTADO' and p.id = 1 LIMIT 1;
+        
+SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel
+                         FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE '%p%' AND P.status = 'abortado';
+$2a$10$XBRZyobS/.g2NNARDUSTDu8cMAvq9GOYESCrFQzsum9BYQf6uf19e

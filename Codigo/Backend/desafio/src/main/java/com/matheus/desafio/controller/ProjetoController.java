@@ -2,17 +2,28 @@ package com.matheus.desafio.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.exceptions.DataInvalidaException;
 import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
 import com.matheus.desafio.service.ProjetoService;
 
+import jakarta.validation.Valid;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,10 +58,13 @@ public class ProjetoController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> post(@RequestBody ProjetoDTO projeto) {
+    public ResponseEntity<?> post(@RequestBody @Valid ProjetoDTO projeto) {
         try {
             return new ResponseEntity<>(service.insert(projeto), HttpStatus.valueOf(201));
-        } catch (Exception e) {
+        }catch(DataInvalidaException ex){
+            return new ResponseEntity<>(ex.getMessage(),HttpStatus.valueOf(400));
+        } 
+        catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
     }
@@ -77,6 +91,20 @@ public class ProjetoController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String ,String> handleValidateException (MethodArgumentNotValidException ex){
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String nomeCampo = ((FieldError) error).getField();
+            String erroMenssagem = error.getDefaultMessage();
+            errors.put(nomeCampo, erroMenssagem);
+        });
+
+        return errors;
     }
 
 }

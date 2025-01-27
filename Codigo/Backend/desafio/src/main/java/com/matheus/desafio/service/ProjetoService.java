@@ -49,10 +49,10 @@ public class ProjetoService {
             Pageable pageable = PageRequest.of(page, size);
             if (nome.isEmpty() && status.isEmpty()) {
                 return repository.getProjetosPage(pageable);
-            }else if(!nome.isEmpty() && !status.isEmpty()){
-                return repository.getProjetosPageNomeStatus(pageable,  status ,"%"+nome+"%");
-            }else if(!nome.isEmpty() && status.isEmpty()){
-                return repository.getProjetosPageNome(pageable,"%" +nome +"%");
+            } else if (!nome.isEmpty() && !status.isEmpty()) {
+                return repository.getProjetosPageNomeStatus(pageable, status, "%" + nome + "%");
+            } else if (!nome.isEmpty() && status.isEmpty()) {
+                return repository.getProjetosPageNome(pageable, "%" + nome + "%");
             }
             return repository.getProjetosPageStatus(pageable, status);
 
