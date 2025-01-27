@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
@@ -39,6 +42,15 @@ public class ProjetoService {
 
     public List<ProjetoDTO> getProjetos() {
         return repository.getProjetos();
+    }
+
+    public Page<ProjetoDTO> getPageProjetos(int page , int size ){
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+             return repository.getProjetosPage(pageable);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Transactional

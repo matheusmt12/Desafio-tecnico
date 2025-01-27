@@ -1,6 +1,7 @@
 package com.matheus.desafio.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
@@ -34,6 +35,15 @@ public class ProjetoController {
             return new ResponseEntity<>(service.getProjetos(), HttpStatus.valueOf(200));
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
+        }
+    }
+
+    @GetMapping("/index")
+    public ResponseEntity<?> getAllIndex(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
+        try {
+            return new ResponseEntity<>(service.getPageProjetos(page, size),HttpStatus.valueOf(200));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
         }
     }
 
