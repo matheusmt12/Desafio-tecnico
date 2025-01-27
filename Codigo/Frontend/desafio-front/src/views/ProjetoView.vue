@@ -12,6 +12,7 @@ import StatusProjetoEnumInicial from '@/enums/StatusProjetoEnumInicial';
 import StatusProjetoEnum from '@/enums/StatusProjetoEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
+import RadioStatusComponent from '@/components/RadioStatusComponent.vue';
 //variáveis 
 const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
@@ -22,6 +23,7 @@ const dadosResponsavel = ref([]);
 const projeto = ref(null);
 const pageable = ref([]);
 const numPage = ref(0);
+const statusConsulta = ref("");
 
 //variáveis para adicionar um novo projeto  
 const nomeProjeto = ref("");
@@ -78,9 +80,9 @@ function buscarProjetos() {
         headers: {
             'Authorization': 'Bearer ' + token()
         },
-        params :{
-            page : numPage.value,
-            nome : nomePesquisa.value
+        params: {
+            page: numPage.value,
+            nome: nomePesquisa.value
         }
     }).then(response => {
         dadosProjeto.value = response.data.content;
@@ -168,8 +170,14 @@ function alterarStatus(idProjeto) {
 function mudarPage(page) {
     numPage.value = page;
     buscarProjetos();
+}
+
+
+function consultaPorStatus(status) {
+    statusConsulta.value = status;
+    console.log(statusConsulta.value.toUpperCase());
     
-    
+    buscarProjetos();
 }
 
 //metodo para redirecionar para as tarefas do projeto
@@ -206,8 +214,11 @@ onMounted(() => {
     <CardComponent titulo="Projetos">
         <template v-slot:conteudo>
             <div class="row" style="padding-bottom: 5px;">
-                <div class="col">
+                <div class="col text-start">
                     <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
+                </div>
+                <div class="col">
+                    <RadioStatusComponent :titulos="['Planejado','Em execução','Abortado','Finalizado']" @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
             <div class="row">

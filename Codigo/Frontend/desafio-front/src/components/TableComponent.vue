@@ -40,6 +40,7 @@ function funcFinalizar (obj){
         <thead>
             <tr>
                 <th v-for="t in titulos" class="text-captalize"><span>{{ splitByUppercase(t) }}</span></th>
+                <th>Açoes</th>
             </tr>
         </thead>
         <tbody>
