@@ -49,7 +49,7 @@ function funcFinalizar (obj){
                     <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
                     <span v-else>{{ dado[chave] }}</span>
                 </td>
-                <td v-if="finalizarProjeto"><button class="btn btn btn-light" @click="funcFinalizar(dado)">Finalizar</button></td>
+                <td v-if="finalizarProjeto"><button class="btn btn btn-light" @click="funcFinalizar(dado)">Status</button></td>
                 <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button></td>
                 <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button></td>
             </tr>

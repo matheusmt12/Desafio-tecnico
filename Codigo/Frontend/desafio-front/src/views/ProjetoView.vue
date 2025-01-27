@@ -68,12 +68,20 @@ function mudarStatusModal(obj) {
 
 
 
-//funções
+//funções token
 
 function token() {
     return localStorage.getItem('token');
 }
 
+function verificarToken(menssagem) {
+    if ('Token inválido!' === menssagem) {
+            router.push({path : '/login', query:{menssagem : 'Sessão expirada' }} );
+        }
+}
+
+
+//funçoes 
 function buscarProjetos() {
 
     axios.get(url + "/index", {
@@ -88,6 +96,8 @@ function buscarProjetos() {
     }).then(response => {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
+    }).catch(error =>{
+        verificarToken(error.response.data.message[0]);
     });
 
 }
@@ -115,7 +125,6 @@ function salvarProjeto() {
             'Authorization': 'Bearer ' + token()
         }
     }).then(response => {
-        console.log(response.data.message);
 
         //resetar as variáveis do projeto
         nomeProjeto.value = "";
@@ -132,6 +141,7 @@ function salvarProjeto() {
 
 
     }).catch(error => {
+        verificarToken(error.response.data.message[0]);
         menssagem.value = error;
         erro.value = true;
         sucesso.value = false;
@@ -157,9 +167,12 @@ function alterarStatus(idProjeto) {
         erro.value = false;
         menssagem.value = response.data;
         statusAlertSucesso.value = "Sucesso";
+        projeto.value.status = status;
+        mudarStatusModal(projeto.value);
         buscarProjetos();
 
     }).catch(error => {
+        verificarToken(error.response.data.message[0]);
         erro.value = true;
         sucesso.value = false;
         menssagem.value = error.response.data;
@@ -198,7 +211,7 @@ onMounted(() => {
         }).then(response => {
             dadosResponsavel.value = response.data
         }).catch(error => {
-            console.log(error);
+            verificarToken(error.response.data.message[0]);
 
         })
     }
@@ -217,7 +230,7 @@ onMounted(() => {
                 <div class="col text-start">
                     <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
                 </div>
-                <div class="col">
+                <div class="col text-end">
                     <RadioStatusComponent :titulos="['Planejado','Em execução','Abortado','Finalizado']" @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
