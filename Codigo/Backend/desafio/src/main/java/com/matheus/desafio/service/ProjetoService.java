@@ -45,7 +45,7 @@ public class ProjetoService {
 
 
         if (dataInicio.before(new Date())) {
-            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
+            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!" );
         }
         if (dataTermino.before(dataInicio)) {
             throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");

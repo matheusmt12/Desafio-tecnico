@@ -26,7 +26,7 @@ public class UsuarioController {
     private CustomUserDetailService customService;
     private JwtService jwtService;
 
-    public UsuarioController (UsuarioService service, CustomUserDetailService customService , JwtService jwtService){
+    public UsuarioController(UsuarioService service, CustomUserDetailService customService, JwtService jwtService) {
         this.customService = customService;
         this.jwtService = jwtService;
         this.service = service;
@@ -37,38 +37,20 @@ public class UsuarioController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Usuario usuario) {
-        try {
-            return new ResponseEntity<>(service.insertUsuario(usuario), HttpStatus.valueOf(201));
-        } catch (Exception e) {
-            // TODO: handle exception
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
-
-        }
+        return new ResponseEntity<>(service.insertUsuario(usuario), HttpStatus.valueOf(201));
     }
 
     @GetMapping
-    public ResponseEntity<?> get(){
-        try {
-            return new ResponseEntity<>(service.findByUsuario("matheus"),HttpStatus.valueOf(200));
-        } catch (Exception e) {
-            // TODO: handle exception
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.valueOf(500));
-        }
+    public ResponseEntity<?> get() {
+        return new ResponseEntity<>(service.findByUsuario("matheus"), HttpStatus.valueOf(200));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO login) {
-        try {
-            customService.verifyUserCredentials(login);
-            String token = jwtService.generateToken(login.getUsuario());
-            return new ResponseEntity<>(new TokenDTO(token, tempoToken), HttpStatus.valueOf(200));
-        } catch (SenhaNoFoundException exSenha) {
-            return new ResponseEntity<>(exSenha.getMessage(), HttpStatus.valueOf(401));
-        } catch (UsuarioNoFoundException exUsuario) {
-            return new ResponseEntity<>(exUsuario.getMessage(), HttpStatus.valueOf(401));
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
-        }
+        customService.verifyUserCredentials(login);
+        String token = jwtService.generateToken(login.getUsuario());
+        return new ResponseEntity<>(new TokenDTO(token, tempoToken), HttpStatus.valueOf(200));
+
     }
 
 }

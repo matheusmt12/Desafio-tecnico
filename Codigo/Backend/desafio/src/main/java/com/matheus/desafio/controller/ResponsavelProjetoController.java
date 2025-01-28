@@ -19,13 +19,7 @@ public class ResponsavelProjetoController {
 
     @GetMapping()
     public ResponseEntity<?> get() {
-        try {
             return new ResponseEntity<>(service.getAll(), HttpStatus.valueOf(200));
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.valueOf(500));
-
-        }
     }
 
 }
