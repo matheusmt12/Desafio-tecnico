@@ -23,9 +23,6 @@ function search(nome) {
                 <li class="nav-item active">
                     <RouterLink class="nav-link" to="/Projeto">Inicio <span class="sr-only">(projeto)</span></RouterLink>
                 </li>
-                <li class="nav-item">
-                    <RouterLink class="nav-link" to="/Projeto">Responsavel Tarefa <span class="sr-only">(projeto)</span></RouterLink>
-                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" @submit.prevent="search(nomeProjeto)">
                 <input class="form-control mr-sm-2" type="search" :placeholder="place" aria-label="Search" v-model="nomeProjeto">
