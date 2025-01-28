@@ -18,7 +18,7 @@ function mudarPagina(page) {
             <li v-for="page in dadosPagina.totalPages" :key="page" class="page-item">
                 <a href="#" class="page-link" @click="mudarPagina(page - 1)">{{ page }}</a>
             </li>
-            <li class="page-item" :class="{disabled : dadosPagina.number === dadosPagina.totalPages -1}">
+            <li class="page-item" :class="{disabled : dadosPagina.number === dadosPagina.totalPages -1 || dadosPagina.totalPages === 0}" >
                 <a class="page-link" href="#" @click="mudarPagina(dadosPagina.number + 1)">Próximo</a>
             </li>
         </ul>
