@@ -1,5 +1,4 @@
 <script setup>
-
 //imports 
 import { onMounted, ref } from 'vue';
 import CardComponent from '@/components/CardComponent.vue';
@@ -13,6 +12,7 @@ import StatusProjetoEnum from '@/enums/StatusProjetoEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import RadioStatusComponent from '@/components/RadioStatusComponent.vue';
+
 //variáveis 
 const url = "http://localhost:8080/projeto";
 const dadosProjeto = ref([]);
@@ -41,13 +41,16 @@ const dataInicio = ref("");
 const dataTermino = ref("");
 
 //variáveis Alert
+const menssagem = ref("");
 
 const sucesso = ref(false);
-const menssagem = ref("");
-const erro = ref(false);
 const statusAlertSucesso = ref("");
+
+const erro = ref(false);
 const statusAlertErro = ref("");
 
+const alerta = ref(false);
+const statusAlertInfo = ref("");
 
 //variáveis e funções modal
 const modalVisivel = ref(false);
@@ -110,7 +113,7 @@ function buscarProjetos() {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
     }).catch(error => {
-        
+
         if (error.response.status === 401) {
             verificarToken(error.response.data.message[0]);
         }
@@ -200,6 +203,19 @@ function salvarProjeto() {
 function alterarStatus(idProjeto) {
     let status = document.getElementById("projetoStatus").value;
 
+    menssagem.value = '';
+    alerta.value = false;
+    statusAlertInfo.value = '';
+
+    if (status === projeto.value.status) {
+        alerta.value = true;
+        menssagem.value = 'O status é o mesmo que o anterior!';
+        statusAlertInfo.value = 'Info:'
+
+        return;
+    }
+
+
     axios.put(url + '/alterarStatusProjeto/' + idProjeto, {
         status: status
     }, {
@@ -209,6 +225,7 @@ function alterarStatus(idProjeto) {
     }).then(response => {
         sucesso.value = true;
         erro.value = false;
+        alerta.value = false;
         menssagem.value = response.data;
         statusAlertSucesso.value = "Sucesso";
         projeto.value.status = status;
@@ -219,8 +236,8 @@ function alterarStatus(idProjeto) {
         erro.value = true;
         sucesso.value = false;
         menssagem.value = error.response.data;
-        statusAlertErro.value = "Erro"
-
+        statusAlertErro.value = "Erro";
+        alerta.value = false;
         if (error.response.status === 401) {
             verificarToken(error.response.data.message[0]);
         }
@@ -373,6 +390,8 @@ onMounted(() => {
     </ModalComponent>
     <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
         <template v-slot:alert>
+            <AlertComponent v-if="alerta" :message="menssagem" classAlert="alert alert-info" :status="statusAlertInfo">
+            </AlertComponent>
             <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"
                 :status="statusAlertSucesso"></AlertComponent>
             <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro">

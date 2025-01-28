@@ -12,7 +12,7 @@ import StatusTarefaInicioEnum from '@/enums/StatusTarefaInicioEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import RadioStatusComponent from '@/components/RadioStatusComponent.vue';
-
+import { RouterLink } from 'vue-router';
 
 //variáveis
 const url = "http://localhost:8080/tarefa";
@@ -41,7 +41,8 @@ const menssagem = ref("");
 const erro = ref(false);
 const statusAlertSucesso = ref("");
 const statusAlertErro = ref("");
-
+const alerta = ref(false);
+const statusAlertInfo = ref("");
 
 // variáveis para adicionar uma nova tarefa
 
@@ -168,6 +169,13 @@ function salvarNovaTarefa() {
 function alterarStatus() {
     let status = document.getElementById('statusTarefa').value;
 
+    if (status === tarefa.value.status) {
+        alerta.value = true;
+        menssagem.value = 'O status é o mesmo que o anterior!';
+        statusAlertInfo.value = 'Info:'
+        return;
+    }
+
     axios.put(url + '/alterar/' + tarefa.value.id, {
         status: status
     }, {
@@ -265,7 +273,14 @@ onMounted(() => {
             </div>
         </template>
         <template v-slot:footer>
-            <PaginationComponent :dados-pagina="pageable" @mudar-pagina="mudarPagina"></PaginationComponent>
+            <div class="d-flex justify-content-between ">
+                <div>
+                    <PaginationComponent :dados-pagina="pageable" @mudar-pagina="mudarPagina"></PaginationComponent>
+                </div>
+                <div>
+                    <RouterLink to="/projeto" class="btn btn-secondary">Voltar</RouterLink>
+                </div>
+            </div>
         </template>
     </CardComponent>
 
@@ -323,6 +338,8 @@ onMounted(() => {
 
     <ModalComponent :visivel="visivelModalStatus" titulo="Alterar Status">
         <template v-slot:alert>
+            <AlertComponent v-if="alerta" :message="menssagem" classAlert="alert alert-info" :status="statusAlertInfo">
+            </AlertComponent>
             <AlertComponent v-if="sucesso" :message="menssagem" classAlert="alert alert-success"
                 :status="statusAlertSucesso"></AlertComponent>
             <AlertComponent v-if="erro" :message="menssagem" classAlert="alert alert-danger" :status="statusAlertErro">

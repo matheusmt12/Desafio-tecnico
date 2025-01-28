@@ -1,6 +1,6 @@
 <script setup>
 import moment from 'moment'
-const props = defineProps(['dados', 'titulos','tarefas','statusAlterar','finalizarProjeto']);
+const props = defineProps(['dados', 'titulos', 'tarefas', 'statusAlterar', 'finalizarProjeto']);
 const emits = defineEmits(['funcTarefas', 'funcStatus', 'funcFinalizar']);
 
 
@@ -13,7 +13,7 @@ function splitByUppercase(str) {
 
     }
 
-    return str.toUpperCase(); 
+    return str.toUpperCase();
 }
 
 function formatarData(data) {
@@ -27,32 +27,37 @@ function funcTarefa(id) {
 }
 
 function funcStatus(obj) {
- emits('funcStatus', obj); 
+    emits('funcStatus', obj);
 }
 
-function funcFinalizar (obj){
+function funcFinalizar(obj) {
     emits('funcFinalizar', obj);
 }
 </script>
 
 <template>
-    <table class="table">
-        <thead>
-            <tr>
-                <th v-for="t in titulos" class="text-captalize"><span>{{ splitByUppercase(t) }}</span></th>
-                <th>Açoes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="dado in dados">
-                <td v-for="chave in titulos " :key="chave">
-                    <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
-                    <span v-else>{{ dado[chave] }}</span>
-                </td>
-                <td v-if="finalizarProjeto"><button class="btn btn btn-light" @click="funcFinalizar(dado)">Status</button></td>
-                <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button></td>
-                <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th v-for="t in titulos" class="text-captalize"><span>{{ splitByUppercase(t) }}</span></th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="dado in dados">
+                    <td v-for="chave in titulos " :key="chave">
+                        <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
+                        <span v-else>{{ dado[chave] }}</span>
+                    </td>
+                    <td v-if="finalizarProjeto"><button class="btn btn btn-light"
+                            @click="funcFinalizar(dado)">Status</button></td>
+                    <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button>
+                    </td>
+                    <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
