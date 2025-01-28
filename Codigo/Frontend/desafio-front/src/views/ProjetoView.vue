@@ -12,6 +12,7 @@ import StatusProjetoEnum from '@/enums/StatusProjetoEnum';
 import AlertComponent from '@/components/AlertComponent.vue';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import RadioStatusComponent from '@/components/RadioStatusComponent.vue';
+import moment from 'moment';
 
 //variáveis 
 const url = "http://localhost:8080/projeto";
@@ -257,6 +258,10 @@ function consultaPorStatus(status) {
     buscarProjetos();
 }
 
+//funçõa para formatar a data
+
+
+
 //metodo para redirecionar para as tarefas do projeto
 function tarefa(id) {
     router.push('/tarefas/' + id)
@@ -407,6 +412,18 @@ onMounted(() => {
                 <div class="col">
                     <InputComponent label="Descrição">
                         <label class="form-control">{{ projeto.descricao }}</label>
+                    </InputComponent>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <InputComponent label="Data Inicio">
+                        <label class="form-control">{{moment(projeto.data_inicio ).format('DD/MM/YYYY') }}</label>
+                    </InputComponent>
+                </div>
+                <div class="col">
+                    <InputComponent label="Data Término">
+                        <label class="form-control">{{ moment(projeto.data_termino ).format('DD/MM/YYYY') }}</label>
                     </InputComponent>
                 </div>
             </div>

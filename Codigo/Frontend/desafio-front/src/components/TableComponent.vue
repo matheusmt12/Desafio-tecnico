@@ -16,10 +16,6 @@ function splitByUppercase(str) {
     return str.toUpperCase();
 }
 
-function formatarData(data) {
-    return moment(data).format('DD/MM/YYYY');
-}
-
 // funções para passar na tabela e retornar o valor de uma linha
 
 function funcTarefa(id) {
@@ -47,7 +43,7 @@ function funcFinalizar(obj) {
             <tbody>
                 <tr v-for="dado in dados">
                     <td v-for="chave in titulos " :key="chave">
-                        <span v-if="chave == 'data_termino'">{{ formatarData(dado[chave]) }}</span>
+                        <span v-if="chave == 'data_termino'">{{ moment(dado[chave]).format('DD/MM/YYYY')}}</span>
                         <span v-else>{{ dado[chave] }}</span>
                     </td>
                     <td v-if="finalizarProjeto"><button class="btn btn btn-light"
