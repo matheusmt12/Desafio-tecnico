@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ProjetoDTO;
+import com.matheus.desafio.dto.ProjetoPageDTO;
 import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
 import com.matheus.desafio.exceptions.DataInvalidaException;
 import com.matheus.desafio.exceptions.FinalizarProjetoException;
@@ -49,7 +50,7 @@ public class ProjetoService {
         return repository.getProjetos();
     }
 
-    public Page<ProjetoDTO> getPageProjetos(int page, int size, String nome, String status) {
+    public Page<ProjetoPageDTO> getPageProjetos(int page, int size, String nome, String status) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             if (nome.isEmpty() && status.isEmpty()) {
