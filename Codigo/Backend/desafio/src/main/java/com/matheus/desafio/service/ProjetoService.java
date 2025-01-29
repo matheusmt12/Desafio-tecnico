@@ -1,7 +1,6 @@
 package com.matheus.desafio.service;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,32 +27,19 @@ public class ProjetoService {
     private ProjetoRepository repository;
 
 
-
-    // funcção para adicionar um dia 
-    private Date adicionarUmDia(Date data) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(data);
-        calendar.add(Calendar.DATE, 1);
-        return calendar.getTime();
-    }
-
     @Transactional
     public String insert(ProjetoDTO projeto) {
 
-        Date dataInicio = adicionarUmDia(projeto.getData_inicio());
-        Date dataTermino = adicionarUmDia(projeto.getData_termino());
-
-
-        if (dataInicio.before(new Date())) {
-            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!" );
+        if (projeto.getData_inicio().isBefore(LocalDate.now())) {
+            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
         }
-        if (dataTermino.before(dataInicio)) {
+        if (projeto.getData_termino().isBefore(projeto.getData_inicio())) {
             throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
 
         }
 
-        repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), dataInicio,
-                dataTermino,
+        repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
+                projeto.getData_termino(),
                 projeto.getStatus(), projeto.getId_responsavel());
 
         return "Novo Projeto Adicionado";

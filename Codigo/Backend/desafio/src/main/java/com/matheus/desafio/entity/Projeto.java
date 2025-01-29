@@ -1,6 +1,6 @@
 package com.matheus.desafio.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,9 +31,9 @@ public class Projeto {
     @Column(name = "descricao", length = 100, nullable = false)
     private String descricao;
     @Column(name = "data_inicio",nullable = false)
-    private Date data_inicio;
+    private LocalDate data_inicio;
     @Column(name = "data_termino", nullable = false)
-    private Date data_termino;
+    private LocalDate data_termino;
     @Column(name = "status", nullable = false)
     private String status;
 

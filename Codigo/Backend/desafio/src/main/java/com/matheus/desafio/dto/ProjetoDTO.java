@@ -1,6 +1,6 @@
 package com.matheus.desafio.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,9 +19,9 @@ public class ProjetoDTO {
     @NotBlank(message = "Campo descrição é requirido")
     private String descricao;
     @NotNull(message = "Campo data inicio é requirido")
-    private Date data_inicio;
+    private LocalDate data_inicio;
     @NotNull(message = "Campo data termino é requirido")
-    private Date data_termino;
+    private LocalDate data_termino;
     private String status;
     private int id_responsavel;
     private String nome_responsavel;

@@ -1,6 +1,6 @@
 package com.matheus.desafio.repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +31,8 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
         void insertProjeto(@Param("nome") String nome,
                         @Param("descricao") String descricao,
-                        @Param("data_inicio") Date data_inicio,
-                        @Param("data_termino") Date data_termino,
+                        @Param("data_inicio") LocalDate data_inicio,
+                        @Param("data_termino") LocalDate data_termino,
                         @Param("status") String status,
                         @Param("id_responsavel") int id_responsavel);
 
