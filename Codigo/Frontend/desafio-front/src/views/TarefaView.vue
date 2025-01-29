@@ -80,7 +80,7 @@ function token() {
 
 function verificarToken(menssagem) {
     if ('Token inválido!' === menssagem) {
-        router.push({ path: '/login', query: { menssagem: 'Sessão expirada' } });
+        router.push({ path: '/', query: { menssagem: 'Sessão expirada' } });
     }
 }
 
@@ -253,7 +253,7 @@ onMounted(() => {
                     <button class="btn btn-primary" @click="abrirModal">Adicionar</button>
                 </div>
                 <div class="col  text-end">
-                    <RadioStatusComponent :titulos="['Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                    <RadioStatusComponent :titulos="['Todos','Planejado', 'Em execução', 'Abortado', 'Finalizado']"
                         @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
@@ -294,16 +294,12 @@ onMounted(() => {
         <template v-slot:conteudo>
             <div class="row">
                 <div class="col">
-                    <InputComponent label="Titulo" for-id="tituloTarefa">
+                    <InputComponent label="Título" for-id="tituloTarefa">
                         <input type="text" class="form-control" required v-model="titulo">
                         <span v-if="errorMessage.titulo" style="color: red;">{{ errorMessage.titulo }}</span>
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent label="Descrição" for-id="descricaoTarefa">
-                        <input type="text" class="form-control" required v-model="descricao">
-                        <span v-if="errorMessage.descricao" style="color: red;">{{ errorMessage.descricao }}</span>
-                    </InputComponent>
                 </div>
             </div>
             <div class="row">
@@ -313,10 +309,18 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent label="responsavelTarefa" for-id="responsavelTarefa">
+                    <InputComponent label="Responsável" for-id="responsavelTarefa">
                         <select name="idResponsavel" id="idResponsavel" class="form-control">
                             <option v-for="i in dadosResponsaveis" :value="i.id">{{ i.nome }}</option>
                         </select>
+                    </InputComponent>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <InputComponent label="Descrição" for-id="descricaoTarefa">
+                        <textarea type="text" class="form-control" required v-model="descricao" />
+                        <span v-if="errorMessage.descricao" style="color: red;">{{ errorMessage.descricao }}</span>
                     </InputComponent>
                 </div>
             </div>
@@ -332,7 +336,7 @@ onMounted(() => {
         </template>
         <template v-slot:footer>
             <button class="btn btn-secondary" @click="fecharModal">Fechar</button>
-            <button class="btn btn-primary" @click="salvarNovaTarefa">Salvar</button>
+            <button class="btn btn-primary" @click="salvarNovaTarefa">Adicionar</button>
         </template>
     </ModalComponent>
 

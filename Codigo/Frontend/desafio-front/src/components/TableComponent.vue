@@ -43,12 +43,18 @@ function funcFinalizar(obj) {
             <tbody>
                 <tr v-for="dado in dados">
                     <td v-for="chave in titulos " :key="chave">
-                        <span v-if="chave == 'data_termino'">{{ moment(dado[chave]).format('DD/MM/YYYY')}}</span>
+                        <span v-if="chave == 'data_termino'">{{ moment(dado[chave]).format('DD/MM/YYYY') }}</span>
                         <span v-else>{{ dado[chave] }}</span>
                     </td>
                     <td v-if="finalizarProjeto"><button class="btn btn btn-light"
                             @click="funcFinalizar(dado)">Status</button></td>
-                    <td v-if="tarefas"> <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button>
+                    <td v-if="tarefas">
+                        <samp v-if="dado.status === 'FINALIZADO'">
+                            <button data-bs-toggle="tooltip" title="O projeto ja foi finalizado" class="btn btn-primary" @click="funcTarefa(dado.id)" disabled>Tarefas</button>
+                        </samp>
+                        <span v-else>
+                            <button class="btn btn-primary" @click="funcTarefa(dado.id)">Tarefas</button>
+                        </span>
                     </td>
                     <td v-if="statusAlterar"><button class="btn btn-primary" @click="funcStatus(dado)">Status</button>
                     </td>

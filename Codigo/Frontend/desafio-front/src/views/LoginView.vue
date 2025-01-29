@@ -26,7 +26,6 @@ function login() {
         }
         router.push('/projeto')
     }).catch(error => {
-        console.log(error.response.data);
 
         if (error.response.data === 'Senha inválida') {
             errorSenha.value = true;

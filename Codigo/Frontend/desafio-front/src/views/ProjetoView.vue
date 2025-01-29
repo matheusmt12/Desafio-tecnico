@@ -93,7 +93,7 @@ function token() {
 
 function verificarToken(menssagem) {
     if ('Token inválido!' === menssagem) {
-        router.push({ path: '/login', query: { menssagem: 'Sessão expirada' } });
+        router.push({ path: '/', query: { menssagem: 'Sessão expirada' } });
     }
 }
 
@@ -113,8 +113,11 @@ function buscarProjetos() {
     }).then(response => {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
+        
+        
     }).catch(error => {
 
+        
         if (error.response.status === 401) {
             verificarToken(error.response.data.message[0]);
         }
@@ -148,8 +151,6 @@ function salvarProjeto() {
         id_responsavel: idResponsavel
     };
 
-    console.log(data);
-
     axios.post(url, data, {
         headers: {
             'Authorization': 'Bearer ' + token()
@@ -164,8 +165,6 @@ function salvarProjeto() {
 
         // menssagem alert
         menssagem.value = response.data;
-        console.log(menssagem.value);
-
         sucesso.value = true;
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
@@ -302,7 +301,7 @@ onMounted(() => {
                     <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
                 </div>
                 <div class="col text-end">
-                    <RadioStatusComponent :titulos="['Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                    <RadioStatusComponent :titulos="['Todos','Planejado', 'Em execução', 'Abortado', 'Finalizado']"
                         @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
@@ -350,12 +349,6 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent forId="idDescricao" label="Descrição">
-                        <input type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
-                            v-model="decricaoProjeto">
-                        <span v-if="errorMessage.descricao != ''" style="color: red;">{{ errorMessage.descricao
-                            }}</span>
-                    </InputComponent>
                 </div>
             </div>
             <div class="row">
@@ -387,12 +380,21 @@ onMounted(() => {
                     </select>
                 </div>
             </div>
+            <InputComponent forId="idDescricao" label="Descrição">
+                <textarea type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
+                    v-model="decricaoProjeto" />
+                <span v-if="errorMessage.descricao != ''" style="color: red;">{{ errorMessage.descricao
+                    }}</span>
+            </InputComponent>
         </template>
         <template v-slot:footer>
             <button class="btn btn-secondary" @click="fecharModal">Fechar</button>
             <button class="btn btn-primary" @click="salvarProjeto">Adicionar</button>
         </template>
     </ModalComponent>
+    
+    
+    <!-- Modal status -->
     <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
         <template v-slot:alert>
             <AlertComponent v-if="alerta" :message="menssagem" classAlert="alert alert-info" :status="statusAlertInfo">
@@ -410,20 +412,17 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent label="Descrição">
-                        <label class="form-control">{{ projeto.descricao }}</label>
-                    </InputComponent>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <InputComponent label="Data Inicio">
-                        <label class="form-control">{{moment(projeto.data_inicio ).format('DD/MM/YYYY') }}</label>
+                        <label class="form-control">{{ moment(projeto.data_inicio).format('DD/MM/YYYY') }}</label>
                     </InputComponent>
                 </div>
                 <div class="col">
                     <InputComponent label="Data Término">
-                        <label class="form-control">{{ moment(projeto.data_termino ).format('DD/MM/YYYY') }}</label>
+                        <label class="form-control">{{ moment(projeto.data_termino).format('DD/MM/YYYY') }}</label>
                     </InputComponent>
                 </div>
             </div>
@@ -436,6 +435,13 @@ onMounted(() => {
                 <div class="col">
                     <InputComponent label="Responsavel">
                         <label class="form-control">{{ projeto.nome_responsavel }}</label>
+                    </InputComponent>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <InputComponent label="Descrição">
+                        <textarea :value="projeto.descricao" disabled class="form-control">{{ projeto.descricao }}</textarea>
                     </InputComponent>
                 </div>
             </div>
