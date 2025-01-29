@@ -102,4 +102,77 @@ Logo em seguida o terminal fornece uma url para acesso ao sistema:
 ```
 Apertar Ctrl + Click na URL fronecida aqui : ➜ Local: 
 
-Ou copiar e colar na barra de endereço do seu navegador
+Ou copiar e colar na barra de endereço do seu navegador para ter acesso a tela de *Login*
+
+## Descrição das funcionalidades implementadas.
+
+* ### Tela de Login
+
+<img src="./Imagem README/telaLogin.png"></img>
+
+Para acessar as telas a seguir e as suas funcionalidades, é preciso fazer o login com o **Usuário** "matheus" e **Senha** "123456"
+
+* ### Tela inicial do projeto
+
+<img src="./Imagem README/telaInicialProjeto.png">
+
+A imagem mostra a tela do caso de uso de projeto. Pressionar o botão **Novo Projeto**, onde a seta(vermelha) esta apontando para adicionar um novo projeto no sistema.
+
+* ### Tela inicial do projeto com a funcionalidade para adicionar um novo projeto no sistema
+
+<img src="./Imagem README/telaDeNovoProjeto.png"></img>
+
+A imagem mostra os campos que precisam ser preenchidos. Logo em seguida, caso queira Adiconar o novo projeto no sistema, pressionar O botão **Adicionar** que esta sendo apontado pela seta(vermelha) na imagem, caso queira cancelar a inserção, pressionar o botão **Fechar** que esta sendo apontado pela seta(azul).
+
+
+* ### Tela inicial com um projeto adicionado
+
+<img src="./Imagem README/telaProjetoBotaoStatus.png"></img>
+
+A imagem o novo projeto adicionado com o seu **nome**, nome do **responsavel**, **status**, **data de termino** e duas ações, Status e Tarefas.
+
+Ao pressionar o botão **Status** que esta sendo apontado pela seta(vermelha) abrirá um modal mostrando as todas as informações do prjeto e uma opção para mudar o status do projeto, como mostra a imagem a seguir:
+
+<img src="./Imagem README/telaProjetoAlterar.png"></img>
+
+Para alterar o status, basta selecionar um dos status e pressionar o botão **Alterar** que esta sendo apontado pela seta(vermelha).
+
+Caso não queira fazer a alteração, basta pressionar o botão **Fechar** apontado pela seta(azul);
+
+* ### Telas para a funcionalidades de **Tarefa**
+
+<img src="./Imagem README/telaProjetoTarefa.png"></img>
+
+Ainda na tela incial de projeto, pressionar o botão **Tarefas** apontado pela seta(vermelha) para ir para as tarefas do determinado projeto.
+
+<img src="./Imagem README/telaInicioTarefa.png"></img>
+
+A imagem mostra uma tela semelhante a tela inicial de **Projeto** so que para as funcionalidades de tarefas.
+
+Pressionado o botão **Adicionar** que a seta(vermelha) esta apontado, abrirá um modal para adiconar uma nova tarefa.
+
+<img src="./Imagem README/telamodalTarefa.png"></img>
+
+A imagem mostra os campos que precisam ser preenchidos para adiconar uma nova tarefa.
+
+Para adiconar a tarefa, após ter preenchidos todos os campos, basta pressionar o botão **Adicionar** apontado pela seta(vermelha). Caso não queira adiconar, pressione o botão **Fechar** apontado pela seta(azul).
+
+#### Tela de tarefas com uma tarefa adicionada
+
+<img src="./Imagem README/telaTarefaAdicionada.png"></img>
+
+A imagem mostra a tela de tarefas logo apos uma tarefa ser adicionada ao sistema. Podemos ver o **título**, nome do **responsavel** e o **status**, e como na tela de projeto ao pressionar o botão **Status** apontado pela seta(vermelha) abrirá um modal mostrando todas as informações da tarefa com a opção de alterar o status.
+
+<img src="./Imagem README/telaAlterarStatus.png"></img>
+
+Para alterar o status, basta selecionar um dos status e pressionar o botão **Alterar** que esta sendo apontado pela seta(vermelha).
+
+Caso não queira fazer a alteração, basta pressionar o botão **Fechar** apontado pela seta(azul);
+
+* ### Tela de Funcionalidade de pesquisa por nome e status do projeto
+
+<img src="./Imagem README/telaPesquisa.png"></img>
+
+No retângulo(azul), mostra um campo de pesquisa para nome do projeto, basta digitar o nome de um projeto, caso esse projeto exista, será exibido na tela.
+
+No retângulo(vermelho), ostra umas opções, **Todos** exibe todos os projetos Independente do seu status, **Planejado** exibe todos os projetos com status *PLANEJADO*, **Em execução** exibe todos os projetos com status *EM EXECUÇÃO*, **Abortado** exibe todos os projetos com o status *ABORTADO* e **Finalizado** que exibirá todos os projetos com status *FINALIZADO*.
