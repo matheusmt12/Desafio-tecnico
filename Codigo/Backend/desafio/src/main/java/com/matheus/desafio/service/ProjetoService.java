@@ -27,23 +27,25 @@ public class ProjetoService {
     @Autowired
     private ProjetoRepository repository;
 
-
     @Transactional
     public String insert(ProjetoDTO projeto) {
 
-        if (projeto.getData_inicio().isBefore(LocalDate.now())) {
-            throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
+        try {
+            if (projeto.getData_inicio().isBefore(LocalDate.now())) {
+                throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
+            }
+            if (projeto.getData_termino().isBefore(projeto.getData_inicio())) {
+                throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
+
+            }
+            repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
+                    projeto.getData_termino(),
+                    projeto.getStatus(), projeto.getId_responsavel());
+
+            return "Novo Projeto Adicionado";
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
-        if (projeto.getData_termino().isBefore(projeto.getData_inicio())) {
-            throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
-
-        }
-
-        repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),
-                projeto.getData_termino(),
-                projeto.getStatus(), projeto.getId_responsavel());
-
-        return "Novo Projeto Adicionado";
     }
 
     public List<ProjetoDTO> getProjetos() {

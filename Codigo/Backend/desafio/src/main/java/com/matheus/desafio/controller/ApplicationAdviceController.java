@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,8 +50,9 @@ public class ApplicationAdviceController {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleGenericException(Exception ex) {
+        return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
