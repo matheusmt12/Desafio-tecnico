@@ -79,14 +79,14 @@ Dado que seu terminal tem como ultima pasta \Desafaio Tecnico>
 
 comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 
-\Desafaio Tecnico> cd codigo
+\Desafio-tecnico>> cd codigo
 
-\Desafaio Tecnico\codigo> cd frontend
+\Desafio-tecnico>\codigo> cd frontend
 
-\Desafaio Tecnico\codigo\frontend> cd desafio-front
+\Desafio-tecnico>\codigo\frontend> cd desafio-front
 
-\Desafaio Tecnico\codigo\frontend\desafio-front> npm install
-\Desafaio Tecnico\codigo\frontend\desafio-front> npm run dev
+\Desafio-tecnico>\codigo\frontend\desafio-front> npm install
+\Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
 ```
 Logo em seguida o terminal fornece uma url para acesso ao sistema: 
 
