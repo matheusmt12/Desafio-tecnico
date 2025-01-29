@@ -35,7 +35,6 @@ public class TarefaService {
 
             return "Sucesso, Tarefa Criada";
         } catch (Exception e) {
-            // TODO: handle exception
             return e.getMessage();
         }
     }

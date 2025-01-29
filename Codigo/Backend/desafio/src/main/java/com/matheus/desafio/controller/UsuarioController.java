@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.matheus.desafio.dto.LoginDTO;
 import com.matheus.desafio.dto.TokenDTO;
 import com.matheus.desafio.entity.Usuario;
-import com.matheus.desafio.exceptions.SenhaNoFoundException;
-import com.matheus.desafio.exceptions.UsuarioNoFoundException;
 import com.matheus.desafio.security.CustomUserDetailService;
 import com.matheus.desafio.security.JwtService;
 import com.matheus.desafio.service.UsuarioService;
