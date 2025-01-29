@@ -54,19 +54,25 @@ Desafio tecnico/
 * Abrir o arquivo **DesafioApplication.java**
 
 ```bash
-src/
-├── main/
-│   ├── java/com/matheus/desafio/
-│   │   ├── controller/
-│   │   ├── dto/
-│   │   ├── entity/
-│   │   ├── exception/
-│   │   ├── repository/
-│   │   ├── security/
-│   │   ├── service/
-│   │   ├── DesafioApplication.java
+├── Codigo/
+    ├── Backend/desafio/
+        ├── .mvn/
+        ├── src/
+        │   ├── main/
+        │       ├── java/com/matheus/desafio/
+        │       │   ├── controller/
+        │       │   ├── dto/
+        │       │   ├── entity/
+        │       │   ├── exception/
+        │       │   ├── repository/
+        │       │   ├── security/
+        │       │   ├── service/
+        │       │   ├── DesafioApplication.java
 
 ```
+Em seguida, executar o arquivo. 
+<img src="./Imagem README/Captura de tela 2025-01-29 015523.png"></img> 
+
 * Acesse pelo terminal a pasta Frontend/desafio-front:
 ```
 Dado que seu terminal tem como ultima pasta \Desafaio Tecnico>
@@ -79,6 +85,7 @@ comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 
 \Desafaio Tecnico\codigo\frontend> cd desafio-front
 
+\Desafaio Tecnico\codigo\frontend\desafio-front> npm install
 \Desafaio Tecnico\codigo\frontend\desafio-front> npm run dev
 ```
 Logo em seguida o terminal fornece uma url para acesso ao sistema: 
