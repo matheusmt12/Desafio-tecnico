@@ -1,3 +1,4 @@
+drop database if exists desafio;
 create database desafio;
 
 use desafio;
@@ -8,7 +9,6 @@ CREATE TABLE tb_responsavel_projeto (
 );
 
 INSERT INTO tb_responsavel_projeto VALUES (null,'ADMFIN'), (null,'ADMPLN'), (null,'ADMAPO');
-select * from tb_responsavel_projeto rp join tb_projetos p on (rp.id = p.id_responsavel);
 
 CREATE TABLE tb_projetos (
 	ID INT  PRIMARY KEY AUTO_INCREMENT,
@@ -21,16 +21,12 @@ CREATE TABLE tb_projetos (
     FOREIGN KEY (ID_RESPONSAVEL) REFERENCES tb_responsavel_projeto(ID)
 );
 
-INSERT INTO tb_projetos VALUES (null, null,'teste descricao',  '2025-01-20', '2025-01-30', 'PLANEJADO',1);
-
-SELECT * FROM TB_PROJETOS;
 
 CREATE TABLE tb_responsavel_tarefa(
 	ID INT PRIMARY KEY AUTO_INCREMENT,
     NOME VARCHAR(5) NOT NULL
 );
 INSERT INTO tb_responsavel_tarefa VALUES (null ,'PLO'), (null, 'GFU'), (null, 'CTB'), (null, 'GBP');
-select * from tb_responsavel_tarefa;
 
 CREATE TABLE tb_tarefas(
 	ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -44,7 +40,7 @@ CREATE TABLE tb_tarefas(
     FOREIGN KEY (ID_PROJETO) REFERENCES tb_projetos(ID)
 );
 
-SELECT * FROM TB_TAREFAS;
+
 
 CREATE TABLE USER(
 	ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -54,18 +50,3 @@ CREATE TABLE USER(
 );
 
 INSERT INTO USER VALUES(null,'matheus','$2a$10$XBRZyobS/.g2NNARDUSTDu8cMAvq9GOYESCrFQzsum9BYQf6uf19e');
-select * from tb_projetos;
-
-
-select * from user;
-
-SELECT RT.ID, RT.NOME, T.titulo as nomeProjeto, T.STATUS FROM TB_RESPONSAVEL_TAREFA RT JOIN TB_TAREFAS T ON (RT.ID = T.ID_RESPONSAVEL);
-
-drop database desafio;
-
-SELECT T.titulo as nome_tarefa, T.status FROM TB_PROJETOS P JOIN TB_TAREFAS T ON (P.ID = T.ID_PROJETO)
-        WHERE T.STATUS != 'FINALIZADO' AND T.STATUS != 'ABORTADO' and p.id = 1 LIMIT 1;
-        
-SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel
-                         FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE '%p%' AND P.status = 'abortado';
-$2a$10$XBRZyobS/.g2NNARDUSTDu8cMAvq9GOYESCrFQzsum9BYQf6uf19e
