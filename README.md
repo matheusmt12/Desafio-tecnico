@@ -7,7 +7,7 @@
 * Baixar e instalar o Node.js: <a href="https://nodejs.org/dist/v22.13.1/node-v22.13.1-x64.msi">Link para baixar o Node.js</a>
 
 * Instalar um Banco de Dados MySQL server. Recomendo baixar o 
-MySQL Workbench para poder rodar o script SQL: <a href="https://www.youtube.com/watch?v=IEUgVwjXF0o">Vídeo de demostrando a instação do MySQL Server e a ferramenta MySQL Workbench</a> 
+MySQL Workbench para poder rodar o script SQL: <a href="https://www.youtube.com/watch?v=oi3UHWXLxLs">Vídeo de demostrando a instação do MySQL Server e a ferramenta MySQL Workbench</a> 
 
 * Instalar o Visual Studio Code ou uma IDE que suporte o JAVA. <a href="https://code.visualstudio.com/docs/?dv=win64user">Link para baixar o Visual Studio Code (Windows 10/11) </a>
 
