@@ -357,6 +357,9 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
+                    <InputComponent label="Responsavel">
+                        <label class="form-control">{{ tarefa.nome_responsavel }}</label>
+                    </InputComponent>
                 </div>
             </div>
             <div class="row">
@@ -366,9 +369,6 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent label="Responsavel">
-                        <label class="form-control">{{ tarefa.nome_responsavel }}</label>
-                    </InputComponent>
                     <InputComponent label="Status Atual">
                         <label class="form-control">{{ tarefa.status }}</label>
                     </InputComponent>
