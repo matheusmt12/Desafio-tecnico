@@ -42,7 +42,7 @@ security.jwt.key=bWF0aGV1cyBkYSBjcnV6IHNvdXphIDE5OTg3IG1heWhldXNtdDEyIHNvdXphIGN
 ```
 ## Passos para execução da aplicação
 
-* Clonar o projeto **GitHub** <a href="https://github.com/matheusmt12/Desafio-tecnico.git">Link do para clonar o projeto</a>
+* Clonar o projeto **GitHub** Link do para clonar o projeto: https://github.com/matheusmt12/Desafio-tecnico.git
 
 * Executar os comandos do arquivo SQL **script_banco.sql** que se encontra: 
 ```bash
