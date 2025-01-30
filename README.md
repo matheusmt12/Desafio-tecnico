@@ -4,7 +4,7 @@
 
 * Baixar e insalar o JDK "17.0.12":  <a href="https://download.oracle.com/java/17/archive/jdk-17.0.12_windows-x64_bin.exe">Link para baixar o jdk</a>
 
-* Baixar e instalar o Node.js: <a href="https://nodejs.org/dist/v22.13.1/node-v22.13.1-x64.msi">Link para baixar o Node.js</a>
+* Baixar e instalar o Node.js: <a href="https://nodejs.org/dist/v20.13.1/node-v20.13.1-x64.msi">Link para baixar o Node.js (Versão usado no projeto).</a>
 
 * Instalar um Banco de Dados MySQL server. Recomendo baixar o 
 MySQL Workbench para poder rodar o script SQL: <a href="https://www.youtube.com/watch?v=oi3UHWXLxLs">Vídeo de demostrando a instação do MySQL Server e a ferramenta MySQL Workbench</a> 
@@ -99,7 +99,8 @@ comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 informações, consulte about_Execution_Policies em https://go.microsoft.com/fwlink/?LinkID=135170.*/
 
 Executar esse comando:
-\Desafio-tecnico>\codigo\frontend> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+\Desafio-tecnico>\codigo\frontend> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm install
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
 
