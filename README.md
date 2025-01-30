@@ -13,13 +13,16 @@ MySQL Workbench para poder rodar o script SQL: <a href="https://www.youtube.com/
 
 * Configurar o arquivo **application.properties** que se encontra em:  
 ```bash
-src/
-├── main/
-│   ├── java/com/matheus/
-│   ├── resources/
-│   │   ├── static/
-│   │   ├── templates/
-│   │   ├── application.properties
+├── Codigo/
+    ├── Backend/desafio/
+        ├── .mvn/
+        ├── src/
+            ├── main/
+            │   ├── java/com/matheus/
+            │   ├── resources/
+            │   │   ├── static/
+            │   │   ├── templates/
+            │   │   ├── application.properties
 
 ```
 com os dados do seu Banco de Dados.
