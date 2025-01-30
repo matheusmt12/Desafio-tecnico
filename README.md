@@ -41,7 +41,7 @@ security.jwt.key=bWF0aGV1cyBkYSBjcnV6IHNvdXphIDE5OTg3IG1heWhldXNtdDEyIHNvdXphIGN
 
 * Clonar o projeto **GitHub** <a href="https://github.com/matheusmt12/Desafio-tecnico.git">Link do para clonar o projeto</a>
 
-* Executar o arquivo SQL **script_banco.sql** que se encontra: 
+* Executar os comandos do arquivo SQL **script_banco.sql** que se encontra: 
 ```bash
 Desafio tecnico/
 ├── .vscode/
