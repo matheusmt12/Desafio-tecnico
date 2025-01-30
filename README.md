@@ -70,6 +70,10 @@ Desafio tecnico/
         │       │   ├── DesafioApplication.java
 
 ```
+Instalar extensão de pacotes Java no Visual Studio Code:
+
+<img src="./Imagem README/extensio.png"></img>
+
 Em seguida, executar o arquivo. 
 <img src="./Imagem README/Captura de tela 2025-01-29 015523.png"></img> 
 
