@@ -81,12 +81,13 @@ Em seguida, executar o arquivo.
 <img src="./Imagem README/Captura de tela 2025-01-29 015523.png"></img> 
 
 * Acesse pelo terminal a pasta Frontend/desafio-front:
-```
+
+``` bash
 Dado que seu terminal tem como ultima pasta \Desafaio Tecnico>
 
 comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 
-\Desafio-tecnico>> cd codigo
+\Desafio-tecnico> cd codigo
 
 \Desafio-tecnico>\codigo> cd frontend
 
@@ -95,20 +96,10 @@ comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm install
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
 
-/* Se por acaso esse erro no terminal : npm : O arquivo C:\Program Files\nodejs\npm.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema. Para obter mais  
-informações, consulte about_Execution_Policies em https://go.microsoft.com/fwlink/?LinkID=135170.*/
-
-Executar esse comando:
-\Desafio-tecnico>\codigo\frontend> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-
-\Desafio-tecnico>\codigo\frontend\desafio-front> npm install
-\Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
-
-
 ```
 Logo em seguida o terminal fornece uma url para acesso ao sistema: 
 
-```
+```bash
   VITE v6.0.11  ready in 508 ms
 
   ➜  Local:   http://localhost:5173/
