@@ -94,6 +94,16 @@ comandos para executar no terminal pra ter acesso a pasta /desafio-front:
 
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm install
 \Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
+
+/* Se por acaso esse erro no terminal : npm : O arquivo C:\Program Files\nodejs\npm.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema. Para obter mais  
+informações, consulte about_Execution_Policies em https://go.microsoft.com/fwlink/?LinkID=135170.*/
+
+Executar esse comando:
+\Desafio-tecnico>\codigo\frontend> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+\Desafio-tecnico>\codigo\frontend\desafio-front> npm install
+\Desafio-tecnico>\codigo\frontend\desafio-front> npm run dev
+
+
 ```
 Logo em seguida o terminal fornece uma url para acesso ao sistema: 
 
