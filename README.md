@@ -11,15 +11,18 @@ MySQL Workbench para poder rodar o script SQL: <a href="https://www.youtube.com/
 
 * Instalar o Visual Studio Code ou uma IDE que suporte o JAVA. <a href="https://code.visualstudio.com/docs/?dv=win64user">Link para baixar o Visual Studio Code (Windows 10/11) </a>
 
-* Configurar o arquivo **application.properties** que se encontra: em  
+* Configurar o arquivo **application.properties** que se encontra em:  
 ```bash
-src/
-├── main/
-│   ├── java/com/matheus/
-│   ├── resources/
-│   │   ├── static/
-│   │   ├── templates/
-│   │   ├── application.properties
+├── Codigo/
+    ├── Backend/desafio/
+        ├── .mvn/
+        ├── src/
+            ├── main/
+            │   ├── java/com/matheus/
+            │   ├── resources/
+            │   │   ├── static/
+            │   │   ├── templates/
+            │   │   ├── application.properties
 
 ```
 com os dados do seu Banco de Dados.
