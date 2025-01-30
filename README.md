@@ -29,7 +29,7 @@ com os dados do seu Banco de Dados.
 ```
 spring.application.name=desafio
 spring.datasource.url=jdbc:mysql://localhost:3306/desafio?useSSL=false&serverTimezone=UTC&useTimezone=true /* Configuração do localhost do meu banco de dados, colocar de acordo com o localhost do seu banco */
-spring.datasource.username= /*Usar a senha do seu banco de dados*/
+spring.datasource.username= /*Usar o usuario do seu banco de dados*/
 spring.datasource.password= /*Usar a senha do seu banco de dados */
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
