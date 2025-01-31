@@ -349,7 +349,7 @@ onMounted(() => {
                     </span>
                     <span v-else>
                         <TableComponent :dados="dadosProjeto"
-                            :titulos="['id','nome', 'nome_responsavel', 'status', 'data_termino']"
+                            :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
                             :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
                             @funcFinalizar="mudarStatusModal">
                         </TableComponent>
@@ -403,20 +403,15 @@ onMounted(() => {
             </div>
             <div class="row">
                 <div class="col">
-                    <InputComponent label="Status">
-                        <select name="statusProjeto" id="statusProjeto" class="form-control">
-                            <option v-for="i in StatusProjetoEnumInicial" :value="i">{{ i }}</option>
-                        </select>
-                        <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }}</span>
-                    </InputComponent>
-
+                    <select name="statusProjeto" id="statusProjeto" class="form-control">
+                        <option v-for="i in StatusProjetoEnumInicial" :value="i">{{ i }}</option>
+                    </select>
+                    <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }}</span>
                 </div>
                 <div class="col">
-                    <InputComponent label="Responsável">
-                        <select name="idResponsavel" id="idResponsavel" class="form-control">
-                            <option v-for="r in dadosResponsavel" :value="r.id">{{ r.nome }}</option>
-                        </select>
-                    </InputComponent>
+                    <select name="idResponsavel" id="idResponsavel" class="form-control">
+                        <option v-for="r in dadosResponsavel" :value="r.id">{{ r.nome }}</option>
+                    </select>
                 </div>
             </div>
             <InputComponent forId="idDescricao" label="Descrição">

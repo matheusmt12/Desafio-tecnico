@@ -57,21 +57,21 @@ public interface ProjetoRepository extends JpaRepository<Projeto, Integer> {
 
         @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) ORDER BY P.data_termino", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID)", nativeQuery = true)
         Page<ProjetoPageDTO> getProjetosPage(Pageable pageable);
 
         @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome ORDER BY P.data_termino", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome", nativeQuery = true)
         Page<ProjetoPageDTO> getProjetosPageNome(Pageable pageable, String nome);
 
         @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.status = :status ORDER BY P.data_termino", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.status = :status", nativeQuery = true)
         Page<ProjetoPageDTO> getProjetosPageStatus(Pageable pageable, String status);
 
         @Query(value = "SELECT P.id, P.nome, P.descricao, P.data_inicio, P.data_termino,P.status,P.id_responsavel, RR.nome as nome_responsavel"
                         +
-                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome AND P.status = :status ORDER BY P.data_termino", nativeQuery = true)
+                        " FROM TB_PROJETOS P JOIN TB_RESPONSAVEL_PROJETO RR ON (P.ID_RESPONSAVEL = RR.ID) WHERE P.nome LIKE :nome AND P.status = :status", nativeQuery = true)
         Page<ProjetoPageDTO> getProjetosPageNomeStatus(Pageable pageable, String status, String nome);
 }

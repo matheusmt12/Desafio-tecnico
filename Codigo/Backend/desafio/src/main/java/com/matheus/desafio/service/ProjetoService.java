@@ -17,9 +17,7 @@ import com.matheus.desafio.dto.ProjetoTarefaStatusDTO;
 import com.matheus.desafio.exceptions.DataInvalidaException;
 import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
-import com.matheus.desafio.exceptions.NoFindResponsavelProjetoException;
 import com.matheus.desafio.repository.ProjetoRepository;
-import com.matheus.desafio.repository.ResponsavelProjetoRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -29,17 +27,10 @@ public class ProjetoService {
     @Autowired
     private ProjetoRepository repository;
 
-    @Autowired
-    private ResponsavelProjetoRepository repositoryResponsavel;
-
     @Transactional
     public String insert(ProjetoDTO projeto) {
 
         try {
-            if (repositoryResponsavel.findById(projeto.getId_responsavel()) == null) {
-                throw new NoFindResponsavelProjetoException("Este responsável não existe!");
-            }
-
             if (projeto.getData_inicio().isBefore(LocalDate.now())) {
                 throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
             }
