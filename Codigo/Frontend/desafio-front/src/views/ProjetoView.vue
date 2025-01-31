@@ -76,6 +76,8 @@ const fecharModal = () => {
     decricaoProjeto.value = '';
     dataInicio.value = '';
     dataTermino.value = '';
+
+
 }
 
 function mudarStatusModal(obj) {
@@ -114,11 +116,11 @@ function buscarProjetos() {
     }).then(response => {
         dadosProjeto.value = response.data.content;
         pageable.value = response.data;
-        
-        
+
+
     }).catch(error => {
 
-        
+
         if (error.response.status === 401) {
             verificarToken(error.response.data.message[0]);
         }
@@ -259,12 +261,12 @@ function alterarStatus(idProjeto) {
         menssagem.value = error.response.data;
         statusAlertErro.value = "Erro";
         alerta.value = false;
-        
+
         if (error.response.data.status) {
             errorMessage.value.status = error.response.data.status;
             menssagem.value = "Campo inválido!"
             return;
-            
+
         }
         menssagem.value = error.response.data;
 
@@ -332,7 +334,7 @@ onMounted(() => {
                     <button class="btn btn-primary " @click="abrirModal">Novo Projeto</button>
                 </div>
                 <div class="col text-end">
-                    <RadioStatusComponent :titulos="['Todos','Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                    <RadioStatusComponent :titulos="['Todos', 'Planejado', 'Em execução', 'Abortado', 'Finalizado']"
                         @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
@@ -424,8 +426,8 @@ onMounted(() => {
             <button class="btn btn-primary" @click="salvarProjeto">Adicionar</button>
         </template>
     </ModalComponent>
-    
-    
+
+
     <!-- Modal status -->
     <ModalComponent :visivel="modalVisivelStatus" titulo="Alterar Status">
         <template v-slot:alert>
@@ -473,7 +475,8 @@ onMounted(() => {
             <div>
                 <div>
                     <InputComponent label="Descrição">
-                        <textarea :value="projeto.descricao" disabled class="form-control">{{ projeto.descricao }}</textarea>
+                        <textarea :value="projeto.descricao" disabled
+                            class="form-control">{{ projeto.descricao }}</textarea>
                     </InputComponent>
                 </div>
             </div>

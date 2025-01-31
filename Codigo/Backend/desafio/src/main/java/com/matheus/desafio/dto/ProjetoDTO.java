@@ -23,7 +23,7 @@ public class ProjetoDTO {
     private LocalDate data_inicio;
     @NotNull(message = "Campo data termino é requirido")
     private LocalDate data_termino;
-    @Pattern(regexp = "^(PLANEJADO|EM EXECUÇÃO|ABORTADO|FINALIZADO)$" , message = "Esse Status não é aceito.")
+    @Pattern(regexp = "^(PLANEJADO|EM EXECUÇÃO|ABORTADO|FINALIZADO)$", message = "Esse Status não é aceito.")
     private String status;
     private int id_responsavel;
     private String nome_responsavel;

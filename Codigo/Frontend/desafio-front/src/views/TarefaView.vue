@@ -31,7 +31,9 @@ const pesquisaTitulo = ref("");
 const errorMessage = ref({
     titulo: '',
     descricao: '',
-})
+    status : '',
+    prazo : ''
+});
 
 //variáveis Alert
 
@@ -48,7 +50,7 @@ const statusAlertInfo = ref("");
 
 const titulo = ref("");
 const descricao = ref("");
-const prazo = ref(0);
+const prazo = ref(1);
 
 //Modal funções e variáveis 
 const visivelModal = ref(false);
@@ -64,6 +66,7 @@ function fecharModal() {
     menssagem.value = "";
     erro.value = false;
     statusAlertSucesso.value = "";
+
 }
 
 function mudarStatus(obj) {
@@ -114,10 +117,10 @@ function buscarTarefas() {
 function salvarNovaTarefa() {
     let idResponsavel = document.getElementById('idResponsavel').value;
     let status = document.getElementById('tarefaStatus').value;
-
     errorMessage.value.descricao = '';
-    errorMessage.value.titulo = '';
-
+        errorMessage.value.status = '';
+        errorMessage.value.prazo ='';
+        errorMessage.value.titulo = ''; 
     let data = {
         titulo: titulo.value,
         descricao: descricao.value,
@@ -140,12 +143,8 @@ function salvarNovaTarefa() {
         statusAlertSucesso.value = "Sucesso";
         titulo.value = '';
         descricao.value = '';
-        prazo.value = 0;
-
-
+        prazo.value = 1;
         buscarTarefas();
-
-
     }).catch(error => {
 
         sucesso.value = false;
@@ -157,6 +156,14 @@ function salvarNovaTarefa() {
             menssagem.value = "Preencha os campos necessários";
             return;
         }
+        if (error.response.data.status || error.response.data.prazo) {
+            
+            errorMessage.value.prazo = error.response.data.prazo;
+            errorMessage.value.status = error.response.data.status;
+            
+            menssagem.value = 'Campo inválido!';
+            return;
+        }
 
         menssagem.value = error.response.data;
 
@@ -166,7 +173,17 @@ function salvarNovaTarefa() {
     })
 }
 
+// ALTERAR STATUS
 function alterarStatus() {
+
+    // LIMAPR VARIÁVEIS DE ERRO
+
+    erro.value = false;
+    sucesso.value = false;
+    menssagem.value = false;
+    statusAlertErro.value = false;
+    statusAlertSucesso.value = false;
+    errorMessage.value.status = '';
     let status = document.getElementById('statusTarefa').value;
 
     if (status === tarefa.value.status) {
@@ -189,13 +206,22 @@ function alterarStatus() {
         erro.value = false;
         statusAlertSucesso.value = "Sucesso";
         tarefa.value.status = status;
+
         mudarStatus(tarefa.value);
         buscarTarefas();
     }).catch(error => {
         sucesso.value = false;
-        menssagem.value = error.response.message;
         erro.value = true;
         statusAlertErro.value = "Erro";
+
+        if(error.response.data.status){
+            errorMessage.value.status = error.response.data.status;
+            menssagem.value = "Campo inválido!";
+            return
+        }
+
+        menssagem.value = error.response.message;
+
         if (error.response.status === 401) {
             verificarToken(error.response.data.message[0]);
         }
@@ -306,6 +332,7 @@ onMounted(() => {
                 <div class="col">
                     <InputComponent label="Prazo (dia)" for-id="prazoTarefa">
                         <input type="number" min="1" required v-model="prazo" class="form-control">
+                        <span v-if="errorMessage.prazo" style="color: red;">{{ errorMessage.prazo }}</span>
                     </InputComponent>
                 </div>
                 <div class="col">
@@ -330,6 +357,7 @@ onMounted(() => {
                         <select name="tarefaStatus" id="tarefaStatus" class="form-control">
                             <option v-for="i in StatusTarefaInicioEnum" :value="i">{{ i }}</option>
                         </select>
+                        <span v-if="errorMessage.status" style="color: red;">{{ errorMessage.status }}</span>
                     </InputComponent>
                 </div>
             </div>
