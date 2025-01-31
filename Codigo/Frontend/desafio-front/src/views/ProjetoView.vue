@@ -349,7 +349,7 @@ onMounted(() => {
                     </span>
                     <span v-else>
                         <TableComponent :dados="dadosProjeto"
-                            :titulos="['nome', 'nome_responsavel', 'status', 'data_termino']"
+                            :titulos="['id','nome', 'nome_responsavel', 'status', 'data_termino']"
                             :finalizarProjeto="finalizarProjeto" :tarefas="tarefas" @funcTarefas="tarefa"
                             @funcFinalizar="mudarStatusModal">
                         </TableComponent>
@@ -403,15 +403,20 @@ onMounted(() => {
             </div>
             <div class="row">
                 <div class="col">
-                    <select name="statusProjeto" id="statusProjeto" class="form-control">
-                        <option v-for="i in StatusProjetoEnumInicial" :value="i">{{ i }}</option>
-                    </select>
-                    <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }}</span>
+                    <InputComponent label="Status">
+                        <select name="statusProjeto" id="statusProjeto" class="form-control">
+                            <option v-for="i in StatusProjetoEnumInicial" :value="i">{{ i }}</option>
+                        </select>
+                        <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }}</span>
+                    </InputComponent>
+
                 </div>
                 <div class="col">
-                    <select name="idResponsavel" id="idResponsavel" class="form-control">
-                        <option v-for="r in dadosResponsavel" :value="r.id">{{ r.nome }}</option>
-                    </select>
+                    <InputComponent label="Responsável">
+                        <select name="idResponsavel" id="idResponsavel" class="form-control">
+                            <option v-for="r in dadosResponsavel" :value="r.id">{{ r.nome }}</option>
+                        </select>
+                    </InputComponent>
                 </div>
             </div>
             <InputComponent forId="idDescricao" label="Descrição">
