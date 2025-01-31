@@ -48,7 +48,7 @@ public class ProjetoController {
     }
 
     @PutMapping("/alterarStatusProjeto/{id}")
-    public ResponseEntity<?> putMethodName(@PathVariable int id, @RequestBody AlterarStatusDTO alterar) {
+    public ResponseEntity<?> putMethodName(@PathVariable int id, @RequestBody @Valid AlterarStatusDTO alterar) {
         return new ResponseEntity<>(service.alterarStatus(id, alterar), HttpStatus.valueOf(200));
 
     }

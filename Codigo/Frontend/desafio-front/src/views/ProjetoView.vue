@@ -32,7 +32,8 @@ const errorMessage = ref({
     nome: '',
     data_inicio: '',
     data_termino: '',
-    descricao: ''
+    descricao: '',
+    status: ''
 })
 
 //variáveis para adicionar um novo projeto  
@@ -142,6 +143,15 @@ function salvarProjeto() {
     errorMessage.value.data_termino = '';
     errorMessage.value.nome = '';
     errorMessage.value.descricao = '';
+    errorMessage.value.status = '';
+
+    //limpar mensagens de erro alert 
+    erro.value = false;
+    sucesso.value = false;
+    menssagem.value = '';
+    statusAlertErro.value = ''
+
+
     let data = {
         nome: nomeProjeto.value,
         descricao: decricaoProjeto.value,
@@ -175,15 +185,21 @@ function salvarProjeto() {
         errorMessage.value.nome = error.response.data.nome;
         errorMessage.value.data_inicio = error.response.data.data_inicio;
         errorMessage.value.data_termino = error.response.data.data_termino;
-        errorMessage.value.descricao = error.response.data.descricao
+        errorMessage.value.descricao = error.response.data.descricao;
         erro.value = true;
         sucesso.value = false;
         statusAlertErro.value = "Erro:";
 
+
         if (errorMessage.value.data_inicio || errorMessage.value.data_termino ||
             errorMessage.value.descricao || errorMessage.value.nome) {
             menssagem.value = "Preencha os campos necessários";
+            return;
+        }
+        errorMessage.value.status = error.response.data.status;
 
+        if (errorMessage.value.status) {
+            menssagem.value = "Campo inválido";
             return;
         }
 
@@ -206,6 +222,10 @@ function alterarStatus(idProjeto) {
     menssagem.value = '';
     alerta.value = false;
     statusAlertInfo.value = '';
+    errorMessage.value.status = '';
+    erro.value = false;
+    sucesso.value = false;
+    statusAlertErro.value = ''
 
     if (status === projeto.value.status) {
         alerta.value = true;
@@ -233,12 +253,23 @@ function alterarStatus(idProjeto) {
         buscarProjetos();
 
     }).catch(error => {
+
         erro.value = true;
         sucesso.value = false;
         menssagem.value = error.response.data;
         statusAlertErro.value = "Erro";
         alerta.value = false;
-        if (error.response.status === 401) {
+        
+        if (error.response.data.status) {
+            errorMessage.value.status = error.response.data.status;
+            menssagem.value = "Campo inválido!"
+            return;
+            
+        }
+        menssagem.value = error.response.data;
+
+        if (error.response.data.status === 401) {
+            errorMessage.value.status = error.response.data.status
             verificarToken(error.response.data.message[0]);
         }
     })
@@ -373,6 +404,7 @@ onMounted(() => {
                     <select name="statusProjeto" id="statusProjeto" class="form-control">
                         <option v-for="i in StatusProjetoEnumInicial" :value="i">{{ i }}</option>
                     </select>
+                    <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }}</span>
                 </div>
                 <div class="col">
                     <select name="idResponsavel" id="idResponsavel" class="form-control">
@@ -445,12 +477,13 @@ onMounted(() => {
                     </InputComponent>
                 </div>
             </div>
-            <h5>Alterar</h5>
+            <h5>Alterar Status</h5>
             <div class="row">
                 <div class="col">
                     <select name="projetoStatus" id="projetoStatus" class="form-control">
                         <option v-for="status in StatusProjetoEnum" :value="status">{{ status }}</option>
                     </select>
+                    <span v-if="errorMessage.status != ''" style="color: red;">{{ errorMessage.status }} </span>
                 </div>
             </div>
         </template>
