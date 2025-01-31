@@ -1,20 +1,20 @@
 package com.matheus.desafio.controller;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.matheus.desafio.exceptions.DataInvalidaException;
 import com.matheus.desafio.exceptions.FinalizarProjetoException;
 import com.matheus.desafio.exceptions.NoFindProjetoException;
+import com.matheus.desafio.exceptions.NoFindResponsavelProjetoException;
+import com.matheus.desafio.exceptions.NoFindResponsavelTarefaException;
 import com.matheus.desafio.exceptions.SenhaNoFoundException;
 import com.matheus.desafio.exceptions.UsuarioNoFoundException;
+
 
 @RestControllerAdvice
 public class ApplicationAdviceController {
@@ -55,6 +55,18 @@ public class ApplicationAdviceController {
         return ex.getMessage();
     }
 
+    @ExceptionHandler(NoFindResponsavelProjetoException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleNoFindResponsavelProjetoException(NoFindResponsavelProjetoException ex){
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(NoFindResponsavelTarefaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleNoFindResponsavelTarefaException(NoFindResponsavelTarefaException ex){
+        return ex.getMessage();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidateException(MethodArgumentNotValidException ex) {
@@ -68,5 +80,4 @@ public class ApplicationAdviceController {
 
         return errors;
     }
-
 }

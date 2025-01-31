@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.matheus.desafio.dto.AlterarStatusDTO;
 import com.matheus.desafio.dto.ResponseDTO;
 import com.matheus.desafio.dto.TarefaDTO;
+import com.matheus.desafio.exceptions.NoFindResponsavelTarefaException;
+import com.matheus.desafio.repository.ResponsavelTarefaRepository;
 import com.matheus.desafio.repository.TarefaRepository;
 
 import jakarta.transaction.Transactional;
@@ -21,6 +23,10 @@ public class TarefaService {
     @Autowired
     private TarefaRepository repository;
 
+    @Autowired 
+
+    private ResponsavelTarefaRepository repositoryResponsavel;
+
     public List<TarefaDTO> getAll() {
 
         return repository.getAll();
@@ -29,13 +35,16 @@ public class TarefaService {
     @Transactional
     public String insert(TarefaDTO tarefa) {
         try {
+            if (repositoryResponsavel.findById(tarefa.getId_responsavel()) == null) {
+                throw new NoFindResponsavelTarefaException("Esse responsável não existe");
+            }
             repository.insertTarega(tarefa.getTitulo(), tarefa.getDescricao(),
                     tarefa.getPrazo(), tarefa.getStatus(), tarefa.getId_projeto(),
                     tarefa.getId_responsavel());
 
             return "Sucesso, Tarefa Criada";
         } catch (Exception e) {
-            return e.getMessage();
+            throw new  RuntimeException(e.getMessage());
         }
     }
 

@@ -31,8 +31,8 @@ const pesquisaTitulo = ref("");
 const errorMessage = ref({
     titulo: '',
     descricao: '',
-    status : '',
-    prazo : ''
+    status: '',
+    prazo: ''
 });
 
 //variáveis Alert
@@ -113,14 +113,14 @@ function buscarTarefas() {
 }
 
 
-//Salvar 
+//Salvar
 function salvarNovaTarefa() {
     let idResponsavel = document.getElementById('idResponsavel').value;
     let status = document.getElementById('tarefaStatus').value;
     errorMessage.value.descricao = '';
-        errorMessage.value.status = '';
-        errorMessage.value.prazo ='';
-        errorMessage.value.titulo = ''; 
+    errorMessage.value.status = '';
+    errorMessage.value.prazo = '';
+    errorMessage.value.titulo = '';
     let data = {
         titulo: titulo.value,
         descricao: descricao.value,
@@ -137,6 +137,8 @@ function salvarNovaTarefa() {
         }
     }).then(response => {
 
+        console.log(response);
+        
         sucesso.value = true;
         menssagem.value = response.data;
         erro.value = false;
@@ -157,10 +159,10 @@ function salvarNovaTarefa() {
             return;
         }
         if (error.response.data.status || error.response.data.prazo) {
-            
+
             errorMessage.value.prazo = error.response.data.prazo;
             errorMessage.value.status = error.response.data.status;
-            
+
             menssagem.value = 'Campo inválido!';
             return;
         }
@@ -214,7 +216,7 @@ function alterarStatus() {
         erro.value = true;
         statusAlertErro.value = "Erro";
 
-        if(error.response.data.status){
+        if (error.response.data.status) {
             errorMessage.value.status = error.response.data.status;
             menssagem.value = "Campo inválido!";
             return
@@ -279,7 +281,7 @@ onMounted(() => {
                     <button class="btn btn-primary" @click="abrirModal">Adicionar</button>
                 </div>
                 <div class="col  text-end">
-                    <RadioStatusComponent :titulos="['Todos','Planejado', 'Em execução', 'Abortado', 'Finalizado']"
+                    <RadioStatusComponent :titulos="['Todos', 'Planejado', 'Em execução', 'Abortado', 'Finalizado']"
                         @status-pesquisa="consultaPorStatus"></RadioStatusComponent>
                 </div>
             </div>
