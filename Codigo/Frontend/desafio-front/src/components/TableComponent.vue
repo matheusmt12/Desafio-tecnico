@@ -36,8 +36,11 @@ function funcFinalizar(obj) {
         <table class="table">
             <thead>
                 <tr>
-                    <th v-for="t in titulos" class="text-captalize"><span>{{ splitByUppercase(t) }}</span></th>
-                    <th>Açoes</th>
+                    <th v-for="t in titulos" class="text-captalize">
+                        <span v-if="t === 'data_termino'">DATA DE TÉRMINO</span>
+                        <span v-else>{{ splitByUppercase(t) }}</span>
+                    </th>
+                    <th>AÇÕES</th>
                 </tr>
             </thead>
             <tbody>

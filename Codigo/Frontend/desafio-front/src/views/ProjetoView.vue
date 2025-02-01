@@ -163,6 +163,7 @@ function salvarProjeto() {
         id_responsavel: idResponsavel
     };
 
+    
     axios.post(url, data, {
         headers: {
             'Authorization': 'Bearer ' + token()
@@ -393,7 +394,7 @@ onMounted(() => {
                     </InputComponent>
                 </div>
                 <div class="col">
-                    <InputComponent forId="idDataTermino" label="Data Termino">
+                    <InputComponent forId="idDataTermino" label="Data Término">
                         <input type="date" class="form-control" required v-model="dataTermino">
                         <span v-if="errorMessage.data_termino != ''" style="color: red;">{{
                             errorMessage.data_termino }}</span>
@@ -421,7 +422,7 @@ onMounted(() => {
             </div>
             <InputComponent forId="idDescricao" label="Descrição">
                 <textarea type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
-                    v-model="decricaoProjeto" />
+                    v-model="decricaoProjeto" style="height: 120px; resize: none;"/>
                 <span v-if="errorMessage.descricao != ''" style="color: red;">{{ errorMessage.descricao
                     }}</span>
             </InputComponent>
@@ -481,7 +482,7 @@ onMounted(() => {
                 <div>
                     <InputComponent label="Descrição">
                         <textarea :value="projeto.descricao" disabled
-                            class="form-control">{{ projeto.descricao }}</textarea>
+                            class="form-control" style="height: 120px; resize: none;">{{ projeto.descricao }}</textarea>
                     </InputComponent>
                 </div>
             </div>
