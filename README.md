@@ -138,7 +138,7 @@ A imagem mostra os campos que precisam ser preenchidos. Logo em seguida, caso qu
 
 <img src="./Imagem README/telaProjetoBotaoStatus.png"></img>
 
-A imagem o novo projeto adicionado com o seu **nome**, nome do **responsavel**, **status**, **data de termino** e duas ações, Status e Tarefas.
+A imagem o novo projeto adicionado com o seu **nome**, nome do **responsavel**, **status**, **data de término** e duas ações, Status e Tarefas.
 
 Ao pressionar o botão **Status** que esta sendo apontado pela seta(vermelha) abrirá um modal mostrando as todas as informações do prjeto e uma opção para mudar o status do projeto, como mostra a imagem a seguir:
 
