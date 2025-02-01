@@ -40,9 +40,7 @@ public class ProjetoService {
             if (repositoryResponsavel.findById(projeto.getId_responsavel()) == null) {
                 throw new NoFindResponsavelProjetoException("Este responsável não existe!");
             }
-            if (projeto.getData_inicio().isBefore(LocalDate.now())) {
-                throw new DataInvalidaException("A data de início não pode ser anterior a hoje!");
-            }
+
             if (projeto.getData_termino().isBefore(projeto.getData_inicio())) {
                 throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
 
