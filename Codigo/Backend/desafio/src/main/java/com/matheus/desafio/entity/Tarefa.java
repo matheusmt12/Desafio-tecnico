@@ -25,7 +25,7 @@ public class Tarefa {
     private int id; 
     @Column(name = "titulo", length = 25, nullable= false)
     private String titulo;
-    @Column(name = "descricao", length = 100 , nullable = false)
+    @Column(name = "descricao", length = 200 , nullable = false)
     private String descricao;
     @Column(name = "prazo", nullable = false)
     private int prazo;

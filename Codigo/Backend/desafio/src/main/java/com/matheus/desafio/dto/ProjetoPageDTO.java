@@ -20,7 +20,7 @@ public class ProjetoPageDTO {
     private String descricao;
     @NotNull(message = "Campo data inicio é requirido")
     private Date data_inicio;
-    @NotNull(message = "Campo data termino é requirido")
+    @NotNull(message = "Campo data término é requirido")
     private Date data_termino;
     private String status;
     private int id_responsavel;

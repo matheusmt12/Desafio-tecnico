@@ -42,7 +42,7 @@ public class ProjetoService {
             }
 
             if (projeto.getData_termino().isBefore(projeto.getData_inicio())) {
-                throw new DataInvalidaException("A data de termino não pode ser menor que a data de inicio!");
+                throw new DataInvalidaException("A data de término não pode ser menor que a data de inicio!");
 
             }
             repository.insertProjeto(projeto.getNome(), projeto.getDescricao(), projeto.getData_inicio(),

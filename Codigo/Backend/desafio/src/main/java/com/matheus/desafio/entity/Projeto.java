@@ -28,7 +28,7 @@ public class Projeto {
     private int id;
     @Column(name = "nome", length = 50, nullable = false)
     private String nome;
-    @Column(name = "descricao", length = 100, nullable = false)
+    @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
     @Column(name = "data_inicio",nullable = false)
     private LocalDate data_inicio;
