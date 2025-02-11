@@ -348,7 +348,7 @@ onMounted(() => {
             <div class="row">
                 <div class="col">
                     <InputComponent label="Descrição" for-id="descricaoTarefa">
-                        <textarea type="text" class="form-control" required v-model="descricao" style="height: 120px; resize: none;"/>
+                        <textarea type="text" class="form-control" required v-model="descricao" style="height: 70px; resize: none;"/>
                         <span v-if="errorMessage.descricao" style="color: red; ">{{ errorMessage.descricao }}</span>
                     </InputComponent>
                 </div>
@@ -407,7 +407,7 @@ onMounted(() => {
             <div class="row">
                 <div class="col">
                     <InputComponent label="Descrição">
-                        <textarea class="form-control" disabled style="height: 120px; resize: none;">{{ tarefa.descricao }} </textarea>
+                        <textarea class="form-control" disabled style="height: 70px; resize: none;">{{ tarefa.descricao }} </textarea>
                     </InputComponent>
                 </div>
             </div>

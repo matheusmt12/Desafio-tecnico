@@ -422,7 +422,7 @@ onMounted(() => {
             </div>
             <InputComponent forId="idDescricao" label="Descrição">
                 <textarea type="text" id="idDescricao" placeholder="Descricao" class="form-control" required
-                    v-model="decricaoProjeto" style="height: 120px; resize: none;"/>
+                    v-model="decricaoProjeto" style="height: 70px; resize: none;"/>
                 <span v-if="errorMessage.descricao != ''" style="color: red;">{{ errorMessage.descricao
                     }}</span>
             </InputComponent>
@@ -482,7 +482,7 @@ onMounted(() => {
                 <div>
                     <InputComponent label="Descrição">
                         <textarea :value="projeto.descricao" disabled
-                            class="form-control" style="height: 120px; resize: none;">{{ projeto.descricao }}</textarea>
+                            class="form-control" style="height: 70px; resize: none;">{{ projeto.descricao }}</textarea>
                     </InputComponent>
                 </div>
             </div>
