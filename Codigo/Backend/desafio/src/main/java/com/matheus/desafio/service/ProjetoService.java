@@ -1,6 +1,4 @@
 package com.matheus.desafio.service;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +86,7 @@ public class ProjetoService {
             Optional<ProjetoTarefaStatusDTO> tarefas = repository.vericarStatus(id);
             if (tarefas.isPresent()) {
                 throw new FinalizarProjetoException(
-                        "A tarefa " + tarefas.get().getNome_tarefa() + " ainda não foi finaliada");
+                        "A tarefa " + tarefas.get().getNome_tarefa() + " ainda não foi finalizada");
             }
         }
 

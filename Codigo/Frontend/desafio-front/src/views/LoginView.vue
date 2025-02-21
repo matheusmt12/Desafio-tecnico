@@ -19,9 +19,13 @@ function login() {
     errorMenssagem.value = ''
     errorSenha.value = false;
     errorUsuario.value = false;
+
     axios.post(url, data).then(response => {
         let token = response.data.token;
+        console.log("esta aqui");
+
         if (token) {
+            
             localStorage.setItem('token', token);
         }
         router.push('/projeto')
